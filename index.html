@@ -390,6 +390,18 @@ function App(){
   const fbRemote=useRef(false);
   const photosRef=useRef(customPhotos);
   photosRef.current=customPhotos;
+  // 写真データエクスポート（一時機能）: URL末尾に #export-photos でダウンロード
+  useEffect(()=>{
+    const handler=()=>{
+      if(location.hash==="#export-photos"&&Object.keys(customPhotos).length>0){
+        const blob=new Blob([JSON.stringify(customPhotos,null,2)],{type:"application/json"});
+        const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="photos-export.json";a.click();
+        URL.revokeObjectURL(a.href);history.replaceState(null,"",location.pathname);
+      }
+    };
+    window.addEventListener("hashchange",handler);handler();
+    return ()=>window.removeEventListener("hashchange",handler);
+  },[customPhotos]);
   // Firebase同期: リアルタイムで写真を共有
   useEffect(()=>{
     try{const s=localStorage.getItem(PHOTO_KEY);if(s)setCustomPhotos(JSON.parse(s));}catch{}
