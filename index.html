@@ -61,20 +61,22 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:#fdfaf4;color:#2c2818;-
 <body>
 <div id="root"></div>
 <script>
-// Firebase Realtime Database REST API で写真を共有同期
+// Firebase Realtime Database REST API で共有同期
 const FB_DB_URL="https://shikoku-trip-e8a25-default-rtdb.asia-southeast1.firebasedatabase.app";
-const FB_PATH="/photos";
-const fbSync={
-  put(key,value){return fetch(FB_DB_URL+FB_PATH+"/"+encodeURIComponent(key)+".json",{method:"PUT",body:JSON.stringify(value),headers:{"Content-Type":"application/json"}}).catch(e=>console.warn("sync write error:",e));},
-  del(key){return fetch(FB_DB_URL+FB_PATH+"/"+encodeURIComponent(key)+".json",{method:"DELETE"}).catch(e=>console.warn("sync delete error:",e));},
+function makeFbSync(path){return{
+  put(key,value){return fetch(FB_DB_URL+path+"/"+encodeURIComponent(key)+".json",{method:"PUT",body:JSON.stringify(value),headers:{"Content-Type":"application/json"}}).catch(e=>console.warn("sync write error:",e));},
+  putAll(data){return fetch(FB_DB_URL+path+".json",{method:"PUT",body:JSON.stringify(data),headers:{"Content-Type":"application/json"}}).catch(e=>console.warn("sync write error:",e));},
+  del(key){return fetch(FB_DB_URL+path+"/"+encodeURIComponent(key)+".json",{method:"DELETE"}).catch(e=>console.warn("sync delete error:",e));},
   listen(onPut,onPatch){
-    const es=new EventSource(FB_DB_URL+FB_PATH+".json");
+    const es=new EventSource(FB_DB_URL+path+".json");
     es.addEventListener("put",e=>{try{const d=JSON.parse(e.data);onPut(d.path,d.data);}catch{}});
     es.addEventListener("patch",e=>{try{const d=JSON.parse(e.data);onPatch(d.path,d.data);}catch{}});
     es.onerror=()=>{console.warn("sync connection lost, retrying...");};
     return()=>es.close();
   }
-};
+};}
+const fbPhotos=makeFbSync("/photos");
+const fbMemos=makeFbSync("/memos");
 </script>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -369,8 +371,19 @@ function App(){
   useEffect(()=>{const t=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(t);},[]);
   useEffect(()=>{try{const s=localStorage.getItem(STORAGE_KEY);if(s)setChk(JSON.parse(s));}catch{}},[]);
   useEffect(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(chk));}catch{}},[chk]);
-  useEffect(()=>{try{const s=localStorage.getItem(MEMO_KEY);if(s)setMemos(JSON.parse(s));}catch{}},[]);
-  useEffect(()=>{try{localStorage.setItem(MEMO_KEY,JSON.stringify(memos));}catch{}},[memos]);
+  const memoRemote=useRef(false);
+  useEffect(()=>{
+    try{const s=localStorage.getItem(MEMO_KEY);if(s)setMemos(JSON.parse(s));}catch{}
+    return fbMemos.listen(
+      (path,data)=>{memoRemote.current=true;if(path==="/"){setMemos(Array.isArray(data)?data:data?Object.values(data):[]);}},
+      (path,data)=>{memoRemote.current=true;if(path==="/"){setMemos(p=>{const merged=Array.isArray(data)?data:data?Object.values(data):[];return merged.length>p.length?merged:p;});}}
+    );
+  },[]);
+  useEffect(()=>{
+    try{localStorage.setItem(MEMO_KEY,JSON.stringify(memos));}catch{}
+    if(memoRemote.current){memoRemote.current=false;return;}
+    if(memos.length>0)fbMemos.putAll(memos);
+  },[memos]);
   useEffect(()=>{try{const s=localStorage.getItem(PACKING_CUSTOM_KEY);if(s)setPackCustom(JSON.parse(s));}catch{}},[]);
   useEffect(()=>{try{localStorage.setItem(PACKING_CUSTOM_KEY,JSON.stringify(packCustom));}catch{}},[packCustom]);
   const fbRemote=useRef(false);
@@ -379,7 +392,7 @@ function App(){
   // Firebase同期: リアルタイムで写真を共有
   useEffect(()=>{
     try{const s=localStorage.getItem(PHOTO_KEY);if(s)setCustomPhotos(JSON.parse(s));}catch{}
-    return fbSync.listen(
+    return fbPhotos.listen(
       (path,data)=>{
         fbRemote.current=true;
         if(path==="/"){setCustomPhotos(data||{});}
@@ -415,7 +428,7 @@ function App(){
         canvas.getContext("2d").drawImage(img,0,0,w,h);
         const dataUrl=canvas.toDataURL("image/jpeg",0.8);
         setCustomPhotos(p=>({...p,[key]:dataUrl}));
-        fbSync.put(key,dataUrl);
+        fbPhotos.put(key,dataUrl);
         setPhotoModal(null);
       };
       img.src=ev.target.result;
@@ -722,7 +735,7 @@ function App(){
           <MI name="photo_camera" size={18}/>写真を選択
           <input type="file" accept="image/*" className="hidden" onChange={(e)=>handlePhotoUpload(photoModal,e)}/>
         </label>
-        {customPhotos[photoModal]&&<button className="w-full mt-2.5 py-2.5 rounded-xl font-bold text-xs kinetic" style={{background:"rgba(196,58,57,.06)",color:"#c43a39"}} onClick={()=>{const k=photoModal;setCustomPhotos(p=>{const n={...p};delete n[k];return n;});fbSync.del(k);setPhotoModal(null);}}>元の写真に戻す</button>}
+        {customPhotos[photoModal]&&<button className="w-full mt-2.5 py-2.5 rounded-xl font-bold text-xs kinetic" style={{background:"rgba(196,58,57,.06)",color:"#c43a39"}} onClick={()=>{const k=photoModal;setCustomPhotos(p=>{const n={...p};delete n[k];return n;});fbPhotos.del(k);setPhotoModal(null);}}>元の写真に戻す</button>}
         <button className="w-full mt-2 py-2 text-on-sf-v/50 text-xs font-medium" onClick={()=>setPhotoModal(null)}>キャンセル</button>
       </div>
     </div>}
