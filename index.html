@@ -43,6 +43,7 @@ const {useState,useEffect,useRef,useCallback} = React;
 const STORAGE_KEY = "shikoku-trip-v3";
 const MEMO_KEY = "shikoku-memo-v1";
 const PACKING_CUSTOM_KEY = "shikoku-packing-custom-v1";
+const PHOTO_KEY = "shikoku-photos-v1";
 
 const FAMILY = [
   {name:"ゆうき",role:"パパ",icon:"directions_car",color:"#00668b"},
@@ -230,18 +231,53 @@ const EMERGENCY=[
 {label:"ホテルアストリア",number:"088-653-6151",icon:"hotel"},
 ];
 
+const MEAL_DETAILS={
+"キティショー":{name:"HELLO KITTY SHOW BOX",addr:"兵庫県淡路市野島蟇浦985-1",tel:"0799-70-9022",hours:"11:00〜",budget:"大人¥3,500〜",maps:"https://maps.google.com/?q=HELLO+KITTY+SHOW+BOX",url:"https://awaji-resort.com/hellokittyshowbox/",note:"ショー付きランチ。予約済み"},
+"BBQ":{name:"Nook The Cliff BBQ",addr:"兵庫県淡路市下司",tel:"080-7644-5695",hours:"チェックイン後",budget:"宿泊料に含む",maps:"https://maps.google.com/?q=34.405222,134.894639",note:"BBQ食材は宿で用意"},
+"びんび家":{name:"びんび家",addr:"徳島県鳴門市北灘町粟田ハシカ谷20-2",tel:"088-682-0023",hours:"10:00〜21:00",budget:"¥1,000〜¥2,000",maps:"https://maps.google.com/?q=びんび家+鳴門",url:"https://binbi-ya.com/",note:"鯛の活造り・天ぷらが名物"},
+"にった":{name:"旅宿にった",addr:"香川県さぬき市",tel:"—",hours:"宿泊者専用",budget:"宿泊料に含む",maps:"https://maps.google.com/?q=旅宿にった+さぬき市",note:"地元食材の手作り料理"},
+"うどん":{name:"もり家 高松シンボルタワー店",addr:"香川県高松市サンポート2-1",tel:"087-811-6858",hours:"10:00〜15:00",budget:"¥500〜¥1,000",maps:"https://maps.google.com/?q=もり家+高松シンボルタワー",url:"https://www.moriya-udon.com/",note:"かけうどんが絶品"},
+"島活":{name:"島活",addr:"香川県小豆郡土庄町",tel:"—",hours:"17:00〜",budget:"¥3,000〜",maps:"https://maps.google.com/?q=島活+小豆島",note:"小豆島の新鮮な海の幸"},
+"kamos":{name:"kamos",addr:"香川県小豆郡小豆島町",tel:"—",hours:"11:30〜14:00",budget:"¥1,500〜",maps:"https://maps.google.com/?q=kamos+小豆島",note:"石窯ピザが人気"},
+"味彩":{name:"味彩",addr:"香川県小豆郡土庄町銀波浦",tel:"0879-62-6161",hours:"17:00〜22:00",budget:"¥3,000〜",maps:"https://maps.google.com/?q=味彩+小豆島",note:"⚠️要予約。島の居酒屋"},
+"なかぶ庵":{name:"なかぶ庵",addr:"香川県小豆郡小豆島町安田甲1385",tel:"0879-82-3669",hours:"10:00〜13:30",budget:"¥800〜",maps:"https://maps.google.com/?q=なかぶ庵+小豆島",url:"https://shodoshima-nakabuan.co.jp/",note:"✅4/27 12:00予約確定。生そうめん体験"},
+"一鶴":{name:"一鶴 丸亀本店",addr:"香川県丸亀市浜町317",tel:"0877-22-9111",hours:"16:00〜21:00（土日11:00〜）",budget:"¥1,500〜",maps:"https://maps.google.com/?q=一鶴+丸亀本店",url:"https://www.ikkaku.co.jp/",note:"骨付鳥おやどり＆ひなどり"},
+"岡じま":{name:"岡じま",addr:"香川県丸亀市",tel:"—",hours:"6:00〜15:00頃",budget:"¥300〜¥600",maps:"https://maps.google.com/?q=岡じま+丸亀+うどん",url:"https://www.udon-okajima.com/",note:"朝うどんの定番"},
+"レオマ":{name:"ホテルレオマの森 バイキング",addr:"香川県丸亀市綾歌町",tel:"0877-86-1071",hours:"夕食17:30〜/朝食7:00〜",budget:"宿泊料に含む",maps:"https://maps.google.com/?q=ホテルレオマの森",note:"大江戸温泉の和洋バイキング"},
+"ふなや":{name:"ふなや お部屋食",addr:"愛媛県松山市道後湯之町1-33",tel:"089-947-0278",hours:"部屋食 18:00〜",budget:"宿泊料に含む",maps:"https://maps.google.com/?q=ふなや+道後温泉",url:"https://www.dogo-funaya.co.jp/",note:"創業400年の老舗旅館"},
+"姫鶴荘":{name:"姫鶴荘",addr:"愛媛県上浮穴郡久万高原町西谷",tel:"0892-55-0057",hours:"11:00〜14:00",budget:"¥1,000〜",maps:"https://maps.google.com/?q=姫鶴荘",url:"https://www.karst.co.jp/",note:"四国カルスト高原の食堂"},
+"宝泉坊":{name:"宝泉坊ロッジ",addr:"愛媛県西予市城川町窪野",tel:"—",hours:"宿泊者専用",budget:"要手配",maps:"https://maps.google.com/?q=宝泉坊ロッジ",note:"⚠️夕食は要手配"},
+"TheMana":{name:"TheMana Village",addr:"高知県土佐清水市足摺岬",tel:"0880-88-0455",hours:"オールインクルーシブ",budget:"宿泊料に含む",maps:"https://maps.google.com/?q=TheMana+Village+足摺",url:"https://themanavillage.com/",note:"全食事・ドリンク込み"},
+"とおわ":{name:"道の駅 四万十とおわ",addr:"高知県高岡郡四万十町十和川口62-9",tel:"0880-28-5421",hours:"7:30〜17:00",budget:"¥800〜",maps:"https://maps.google.com/?q=道の駅四万十とおわ",url:"https://toowashimanto.jp/",note:"四万十ポークや鮎の塩焼き"},
+"亀の井":{name:"亀の井ホテル高知 土佐会席",addr:"高知県吾川郡いの町波川",tel:"088-893-4411",hours:"夕食18:00〜",budget:"宿泊料に含む",maps:"https://maps.google.com/?q=亀の井ホテル高知",url:"https://kamenoi-hotels.com/kochi/",note:"カツオのたたきなど土佐の味覚"},
+"NIPPONIA":{name:"NIPPONIA仁尾",addr:"香川県三豊市仁尾町",tel:"—",hours:"—",budget:"要手配",maps:"https://maps.google.com/?q=NIPPONIA+仁尾",url:"https://nipponia-nio.jp/",note:"⚠️夕食は要手配"},
+"かずら橋":{name:"ホテルかずら橋 祖谷味覚",addr:"徳島県三好市西祖谷山村善徳33-1",tel:"0883-87-2171",hours:"夕食18:00〜",budget:"宿泊料に含む",maps:"https://maps.google.com/?q=ホテルかずら橋",url:"https://www.kazurabashi.co.jp/",note:"でこまわし・祖谷そば・あめご"},
+"祖谷そば":{name:"祖谷そば（かずら橋周辺）",addr:"徳島県三好市西祖谷山村",tel:"—",hours:"11:00〜14:00頃",budget:"¥800〜",maps:"https://maps.google.com/?q=祖谷のかずら橋",note:"太めの田舎そばが特徴"},
+"アストリア":{name:"ホテルアストリア周辺",addr:"徳島県徳島市一番町2-26-1",tel:"088-653-6151",hours:"—",budget:"¥1,500〜",maps:"https://maps.google.com/?q=ホテルアストリア+徳島",note:"徳島駅周辺で夕食を探す"},
+};
+
+const findMealDetail=(text)=>{
+  for(const[k,v]of Object.entries(MEAL_DETAILS)){
+    if(text.includes(k))return v;
+  }
+  return null;
+};
+
 const MI=({name,fill,size,style})=><span className={`material-symbols-outlined${fill?" mi-fill":""}`} style={{fontSize:size||24,...style}}>{name}</span>;
 
-const SpotPhoto=({ev})=>{
+const SpotPhoto=({ev,photoKey,customPhotos,onUploadClick})=>{
   const [f,setF]=useState(false);
   if(!ev.img&&!ev.grad)return null;
-  return(<div className="relative -mx-5 -mt-5 mb-4 h-48 rounded-t-xl overflow-hidden">
-    {ev.img&&!f?<img src={ev.img} alt={ev.text} loading="lazy" onError={()=>setF(true)} className="w-full h-full object-cover"/>:
+  const src=photoKey&&customPhotos?.[photoKey]?customPhotos[photoKey]:ev.img;
+  const isCustom=photoKey&&customPhotos?.[photoKey];
+  return(<div className="relative -mx-5 -mt-5 mb-4 h-48 rounded-t-xl overflow-hidden group">
+    {src&&!f?<img src={src} alt={ev.text} loading="lazy" onError={()=>setF(true)} className="w-full h-full object-cover"/>:
     <div className="w-full h-full flex items-center justify-center" style={{background:ev.grad||"linear-gradient(135deg,#666,#999)"}}>
       <span className="text-5xl drop-shadow-lg">{ev.femoji||"📍"}</span>
     </div>}
-    {ev.flabel&&<span className="absolute bottom-2 right-3 text-[10px] font-bold text-white/90 tracking-wider drop-shadow-md">{ev.flabel}</span>}
+    {ev.flabel&&<span className="absolute bottom-2 right-3 text-[10px] font-bold text-white/90 tracking-wider drop-shadow-md z-10">{ev.flabel}</span>}
     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"/>
+    {onUploadClick&&<button className="absolute top-2 left-2 z-10 bg-black/50 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100 backdrop-blur-sm" onClick={(e)=>{e.stopPropagation();onUploadClick(photoKey);}}><MI name={isCustom?"swap_horiz":"add_a_photo"} size={14}/></button>}
   </div>);
 };
 
@@ -277,6 +313,10 @@ function App(){
   const [packCustom,setPackCustom]=useState({});
   const [newItemText,setNewItemText]=useState("");
   const [now,setNow]=useState(new Date());
+  const [customPhotos,setCustomPhotos]=useState({});
+  const [photoModal,setPhotoModal]=useState(null);
+  const photoInputRef=useRef(null);
+  const [mealDetail,setMealDetail]=useState(null);
 
   useEffect(()=>{const t=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(t);},[]);
   useEffect(()=>{try{const s=localStorage.getItem(STORAGE_KEY);if(s)setChk(JSON.parse(s));}catch{}},[]);
@@ -285,7 +325,34 @@ function App(){
   useEffect(()=>{try{localStorage.setItem(MEMO_KEY,JSON.stringify(memos));}catch{}},[memos]);
   useEffect(()=>{try{const s=localStorage.getItem(PACKING_CUSTOM_KEY);if(s)setPackCustom(JSON.parse(s));}catch{}},[]);
   useEffect(()=>{try{localStorage.setItem(PACKING_CUSTOM_KEY,JSON.stringify(packCustom));}catch{}},[packCustom]);
+  useEffect(()=>{try{const s=localStorage.getItem(PHOTO_KEY);if(s)setCustomPhotos(JSON.parse(s));}catch{}},[]);
+  useEffect(()=>{try{localStorage.setItem(PHOTO_KEY,JSON.stringify(customPhotos));}catch{}},[customPhotos]);
   useEffect(()=>{if(chatEndRef.current)chatEndRef.current.scrollIntoView({behavior:"smooth"});},[memos]);
+
+  const handlePhotoUpload=(key,e)=>{
+    const file=e.target.files?.[0];
+    if(!file)return;
+    if(file.size>5*1024*1024){alert("5MB以下の写真を選んでください");return;}
+    const reader=new FileReader();
+    reader.onload=(ev)=>{
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement("canvas");
+        const MAX=800;
+        let w=img.width,h=img.height;
+        if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext("2d").drawImage(img,0,0,w,h);
+        const dataUrl=canvas.toDataURL("image/jpeg",0.8);
+        setCustomPhotos(p=>({...p,[key]:dataUrl}));
+        setPhotoModal(null);
+      };
+      img.src=ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const getPhoto=(key,original)=>customPhotos[key]||original;
 
   const tog=k=>setChk(p=>({...p,[k]:!p[k]}));
   const PACKING=DEFAULT_PACKING.map((c,ci)=>({...c,items:[...c.items,...(packCustom[ci]||[])]}));
@@ -369,7 +436,7 @@ function App(){
           {day.events.map((ev,i)=><div key={i} className="relative mb-4 animate-fade-up" style={{animationDelay:`${i*60}ms`}}>
             <div className={`absolute left-[-38px] top-3 w-10 h-10 rounded-full ${iconType(ev)} text-white flex items-center justify-center shadow-lg border-[3px] border-sf z-10`}><MI name={ev.icon} size={16}/></div>
             <div className="bg-white rounded-xl p-5 shadow-[0_4px_24px_rgba(55,50,34,0.06)] border border-ol-v/5 overflow-hidden kinetic cursor-pointer" onClick={(e)=>handleEventTap(ev,e)}>
-              <SpotPhoto ev={ev}/>
+              <SpotPhoto ev={ev} photoKey={`day${day.day}_ev${i}`} customPhotos={customPhotos} onUploadClick={(k)=>setPhotoModal(k)}/>
               <div className="flex justify-between items-start mb-1">
                 <span className="font-h font-extrabold text-pri text-sm">{ev.time}</span>
                 <div className="flex gap-1.5">
@@ -431,16 +498,18 @@ function App(){
         {MEALS.map((m,i)=><div key={i} className="relative mb-5 animate-fade-up" style={{animationDelay:`${i*40}ms`}}>
           <div className="absolute left-[-28px] top-0 w-6 h-6 rounded-full bg-pri text-on-pri flex items-center justify-center font-h text-[10px] font-bold z-10">{m.d}</div>
           <div className="font-h font-bold text-xs text-on-sf mb-1.5">{m.date}</div>
-          {[["b","朝","#f4b183",m.b,m.bimg,m.burl],["l","昼","#00668b",m.l,m.limg,m.lurl],["d","夕","#b62524",m.di,m.diimg,m.diurl]].map(([k,label,bg,text,img,url])=>
-            <div key={k} className="bg-white rounded-lg p-2.5 mb-1 flex items-center gap-2.5 border border-ol-v/5 shadow-sm">
+          {[["b","朝","#f4b183",m.b,m.bimg,m.burl],["l","昼","#00668b",m.l,m.limg,m.lurl],["d","夕","#b62524",m.di,m.diimg,m.diurl]].map(([k,label,bg,text,img,url])=>{
+            const detail=findMealDetail(text);
+            return<div key={k} className={`bg-white rounded-lg p-2.5 mb-1 flex items-center gap-2.5 border border-ol-v/5 shadow-sm ${detail?"cursor-pointer kinetic":""}`} onClick={()=>{if(detail)setMealDetail(detail);else if(url)window.open(url,'_blank');}}>
               {img&&<MealPhoto src={img}/>}
               <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded flex-shrink-0" style={{background:bg}}>{label}</span>
               {k==="l"&&<span className="text-base flex-shrink-0">{m.li}</span>}
               {k==="d"&&<span className="text-base flex-shrink-0">{m.dii}</span>}
-              <span className={`text-xs font-medium flex-1 ${text.includes("⚠️")?"text-err font-bold":""}`} style={{cursor:url?"pointer":"default"}} onClick={()=>url&&window.open(url,'_blank')}>{text}</span>
+              <span className={`text-xs font-medium flex-1 ${text.includes("⚠️")?"text-err font-bold":""}`}>{text}</span>
               {text.includes("✅")&&<span className="text-[8px] font-bold text-sec bg-sec-c/30 px-1.5 py-0.5 rounded">確定</span>}
               {text.includes("⚠️")&&<span className="text-[8px] font-bold text-err bg-err-c/20 px-1.5 py-0.5 rounded">要手配</span>}
-            </div>
+              {detail&&<MI name="chevron_right" size={14} style={{color:"#bab19b",flexShrink:0}}/>}
+            </div>;}
           )}
         </div>)}
       </div>
@@ -530,14 +599,48 @@ function App(){
       <div className="bg-sf-low rounded-xl p-3 mt-4 text-center border border-dashed border-ol-v text-xs text-on-sf-v">⚠️ 車検証はフェリー乗船時に必須です<br/>🚗 GLC300（なにわ る・416）</div>
     </div>}
 
-    {/* FAB */}
-    <div className={`fixed inset-0 bg-on-sf/10 z-[43] glass transition-opacity ${fabOpen?"opacity-100":"opacity-0 pointer-events-none"}`} onClick={()=>setFabOpen(false)}/>
+    {/* Meal Detail Modal */}
+    {mealDetail&&<div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 backdrop-blur-sm" onClick={()=>setMealDetail(null)}>
+      <div className="bg-white rounded-t-3xl p-5 mx-0 max-w-[480px] w-full shadow-2xl animate-fade-up max-h-[70dvh] overflow-y-auto" onClick={e=>e.stopPropagation()}>
+        <div className="w-10 h-1 rounded-full bg-ol-v/30 mx-auto mb-4"/>
+        <h3 className="font-h font-extrabold text-xl mb-1">{mealDetail.name}</h3>
+        {mealDetail.note&&<p className="text-xs text-on-sf-v mb-4 bg-sf-low rounded-lg px-3 py-2">{mealDetail.note}</p>}
+        <div className="space-y-2.5">
+          <div className="flex items-start gap-3"><div className="w-8 h-8 rounded-lg bg-pri/10 flex items-center justify-center flex-shrink-0"><MI name="location_on" size={16} style={{color:"#00668b"}}/></div><div><p className="text-[10px] font-bold text-on-sf-v uppercase tracking-wider">住所</p><p className="text-xs font-medium">{mealDetail.addr}</p></div></div>
+          <div className="flex items-start gap-3"><div className="w-8 h-8 rounded-lg bg-pri/10 flex items-center justify-center flex-shrink-0"><MI name="call" size={16} style={{color:"#00668b"}}/></div><div><p className="text-[10px] font-bold text-on-sf-v uppercase tracking-wider">電話</p>{mealDetail.tel!=="—"?<a href={`tel:${mealDetail.tel}`} className="text-xs font-bold text-pri">{mealDetail.tel}</a>:<p className="text-xs text-on-sf-v">—</p>}</div></div>
+          <div className="flex items-start gap-3"><div className="w-8 h-8 rounded-lg bg-sec/10 flex items-center justify-center flex-shrink-0"><MI name="schedule" size={16} style={{color:"#4a6800"}}/></div><div><p className="text-[10px] font-bold text-on-sf-v uppercase tracking-wider">営業時間</p><p className="text-xs font-medium">{mealDetail.hours}</p></div></div>
+          <div className="flex items-start gap-3"><div className="w-8 h-8 rounded-lg bg-ter/10 flex items-center justify-center flex-shrink-0"><MI name="payments" size={16} style={{color:"#b62524"}}/></div><div><p className="text-[10px] font-bold text-on-sf-v uppercase tracking-wider">予算</p><p className="text-xs font-bold">{mealDetail.budget}</p></div></div>
+        </div>
+        <div className="flex gap-2 mt-5">
+          <a href={mealDetail.maps} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-3 bg-pri text-on-pri rounded-xl font-bold text-xs kinetic"><MI name="map" size={16}/>地図を開く</a>
+          {mealDetail.url&&<a href={mealDetail.url} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 py-3 bg-sf-low text-on-sf rounded-xl font-bold text-xs kinetic"><MI name="open_in_new" size={16}/>公式サイト</a>}
+        </div>
+        <button className="w-full mt-3 py-2.5 text-on-sf-v text-xs font-medium" onClick={()=>setMealDetail(null)}>閉じる</button>
+      </div>
+    </div>}
+
+    {/* Photo Upload Modal */}
+    {photoModal&&<div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={()=>setPhotoModal(null)}>
+      <div className="bg-white rounded-2xl p-6 mx-4 max-w-xs w-full shadow-2xl animate-scale-in" onClick={e=>e.stopPropagation()}>
+        <h3 className="font-h font-bold text-lg mb-1">写真を変更</h3>
+        <p className="text-xs text-on-sf-v mb-4">旅行中に撮った写真で差し替えできます</p>
+        <label className="flex items-center justify-center gap-2 w-full py-3 bg-pri text-on-pri rounded-xl font-bold text-sm kinetic cursor-pointer">
+          <MI name="photo_camera" size={18}/>写真を選択
+          <input type="file" accept="image/*" className="hidden" onChange={(e)=>handlePhotoUpload(photoModal,e)}/>
+        </label>
+        {customPhotos[photoModal]&&<button className="w-full mt-2 py-2.5 bg-err/10 text-err rounded-xl font-bold text-xs kinetic" onClick={()=>{setCustomPhotos(p=>{const n={...p};delete n[photoModal];return n;});setPhotoModal(null);}}>元の写真に戻す</button>}
+        <button className="w-full mt-2 py-2 text-on-sf-v text-xs font-medium" onClick={()=>setPhotoModal(null)}>キャンセル</button>
+      </div>
+    </div>}
+
+    {/* FAB - hidden on memo tab */}
+    {tab!=="memo"&&<><div className={`fixed inset-0 bg-on-sf/10 z-[43] glass transition-opacity ${fabOpen?"opacity-100":"opacity-0 pointer-events-none"}`} onClick={()=>setFabOpen(false)}/>
     <div className={`fixed bottom-[132px] right-[max(calc((100%-480px)/2+8px),8px)] z-[44] flex flex-col gap-2 items-end transition-all ${fabOpen?"opacity-100 translate-y-0":"opacity-0 translate-y-3 pointer-events-none"}`} style={{paddingBottom:"env(safe-area-inset-bottom,20px)"}}>
       <button className="flex items-center gap-2 bg-white rounded-xl px-4 py-2.5 shadow-lg font-b text-xs font-bold kinetic" onClick={()=>{setFabOpen(false);setTab("packing");}}><MI name="luggage" size={16} style={{color:"#00668b"}}/>持ち物チェック</button>
       <button className="flex items-center gap-2 bg-white rounded-xl px-4 py-2.5 shadow-lg font-b text-xs font-bold kinetic" onClick={()=>{setFabOpen(false);setTab("emergency");}}><MI name="emergency" size={16} style={{color:"#b62524"}}/>緊急連絡先</button>
       <button className="flex items-center gap-2 bg-white rounded-xl px-4 py-2.5 shadow-lg font-b text-xs font-bold kinetic" onClick={()=>{setFabOpen(false);setCover(true);}}><MI name="auto_stories" size={16} style={{color:"#00668b"}}/>表紙に戻る</button>
     </div>
-    <button className={`fixed bottom-[calc(70px+env(safe-area-inset-bottom,20px))] right-[max(calc((100%-480px)/2+16px),16px)] z-[45] w-14 h-14 rounded-full bg-ter text-white shadow-2xl flex items-center justify-center kinetic transition-transform ${fabOpen?"rotate-45 bg-on-sf":""}`} onClick={()=>setFabOpen(f=>!f)}><MI name="add" size={26}/></button>
+    <button className={`fixed bottom-[calc(70px+env(safe-area-inset-bottom,20px))] right-[max(calc((100%-480px)/2+16px),16px)] z-[45] w-14 h-14 rounded-full bg-ter text-white shadow-2xl flex items-center justify-center kinetic transition-transform ${fabOpen?"rotate-45 bg-on-sf":""}`} onClick={()=>setFabOpen(f=>!f)}><MI name="add" size={26}/></button></>}
 
     {/* Bottom Nav */}
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] z-50 flex justify-around items-center px-3 py-1.5 glass bg-sf/80 rounded-t-2xl border-t border-ol-v/8 shadow-[0_-4px_20px_rgba(55,50,34,0.04)] safe-b">
