@@ -12,16 +12,16 @@
 <title>四国家族旅行しおり 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
-tailwind.config={darkMode:"class",theme:{extend:{colors:{"pri":"#00668b","pri-c":"#74cbfb","on-pri":"#f4f9ff","on-pri-c":"#00415b","sec":"#4a6800","sec-c":"#c8f17a","on-sec-c":"#3f5a00","ter":"#b62524","ter-c":"#ff9f96","on-ter-c":"#740009","err":"#ac3434","err-c":"#f56965","sf":"#fff8ef","sf-low":"#fbf3e1","sf-mid":"#f6edda","sf-hi":"#f1e7d2","sf-top":"#ece2ca","on-sf":"#373222","on-sf-v":"#655f4c","ol":"#827a66","ol-v":"#bab19b"},fontFamily:{h:["Plus Jakarta Sans","sans-serif"],b:["Be Vietnam Pro","sans-serif"]},borderRadius:{DEFAULT:"1rem",lg:"1.5rem",xl:"2rem","2xl":"3rem",full:"9999px"},keyframes:{fadeUp:{from:{opacity:0,transform:"translateY(12px)"},to:{opacity:1,transform:"translateY(0)"}},scaleIn:{from:{opacity:0,transform:"scale(.95)"},to:{opacity:1,transform:"scale(1)"}}},animation:{"fade-up":"fadeUp .4s ease both","scale-in":"scaleIn .3s ease both"}}}};
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"pri":"#00668b","pri-c":"#74cbfb","on-pri":"#f4f9ff","on-pri-c":"#00415b","sec":"#4a6800","sec-c":"#c8f17a","on-sec-c":"#3f5a00","ter":"#b62524","ter-c":"#ff9f96","on-ter-c":"#740009","err":"#ac3434","err-c":"#f56965","sf":"#fff8ef","sf-low":"#fbf3e1","sf-mid":"#f6edda","sf-hi":"#f1e7d2","sf-top":"#ece2ca","on-sf":"#373222","on-sf-v":"#655f4c","ol":"#827a66","ol-v":"#bab19b"},fontFamily:{h:["DM Serif Display","serif"],ui:["Outfit","sans-serif"],b:["Zen Maru Gothic","sans-serif"]},borderRadius:{DEFAULT:"1rem",lg:"1.5rem",xl:"2rem","2xl":"3rem",full:"9999px"},keyframes:{fadeUp:{from:{opacity:0,transform:"translateY(12px)"},to:{opacity:1,transform:"translateY(0)"}},scaleIn:{from:{opacity:0,transform:"scale(.95)"},to:{opacity:1,transform:"scale(1)"}}},animation:{"fade-up":"fadeUp .4s ease both","scale-in":"scaleIn .3s ease both"}}}};
 </script>
 <style>
 .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
 .mi-fill{font-variation-settings:'FILL' 1,'wght' 400;}
-body{font-family:'Be Vietnam Pro',sans-serif;background:#fff8ef;color:#373222;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
+body{font-family:'Zen Maru Gothic',sans-serif;background:#fff8ef;color:#373222;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
 .washi{background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='.5' fill='%23827a66' opacity='.06'/%3E%3C/svg%3E");}
 .glass{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
 .hide-sb::-webkit-scrollbar{display:none;}.hide-sb{-ms-overflow-style:none;scrollbar-width:none;}
@@ -31,6 +31,20 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:#fff8ef;color:#373222;-w
 .safe-t{padding-top:max(14px,env(safe-area-inset-top));}
 @keyframes pulse-soft{0%,100%{opacity:1}50%{opacity:.7}}
 .pulse-soft{animation:pulse-soft 2s ease-in-out infinite;}
+/* Grain overlay for washi texture */
+.grain::after{content:'';position:fixed;inset:0;opacity:.03;pointer-events:none;z-index:999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+/* Editorial underline accent */
+.accent-line{position:relative;display:inline-block;}.accent-line::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:6px;background:var(--accent,#74cbfb);opacity:.3;border-radius:3px;z-index:-1;}
+/* Slide-up entrance for bottom sheets */
+@keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+.animate-slide-up{animation:slideUp .35s cubic-bezier(.22,1,.36,1) both;}
+/* Hover lift for cards */
+.lift{transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease;}
+.lift:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(55,50,34,.1);}
+/* Number styling with Outfit */
+.num{font-family:'Outfit',sans-serif;}
+/* Serif italic accent */
+.serif-i{font-family:'DM Serif Display',serif;font-style:italic;}
 </style>
 </head>
 <body>
@@ -294,7 +308,7 @@ const HotelImg=({b,h})=>{
     <div className="absolute inset-0 flex items-center justify-center"><span className="text-6xl drop-shadow-xl opacity-90">{b.emoji}</span></div>}
     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-[1]"/>
     {b.tag&&<div className={`absolute top-3 right-3 z-[3] px-3 py-1 rounded-full text-[9px] font-bold tracking-widest uppercase ${b.tag==="Premium Stay"?"bg-ter/90 text-white":"bg-white/90 text-pri backdrop-blur-sm"}`}>{b.tag}</div>}
-    <div className="relative z-[2]"><div className="text-white font-h font-extrabold text-lg drop-shadow-lg" style={h?{fontSize:15}:{}}>{b.name}</div><div className="text-white/80 text-xs">{b.area}{b.nights?` ・${b.nights}`:""}</div></div>
+    <div className="relative z-[2]"><div className="text-white font-h font-bold text-lg drop-shadow-lg" style={h?{fontSize:15}:{}}>{b.name}</div><div className="text-white/80 text-xs">{b.area}{b.nights?` ・${b.nights}`:""}</div></div>
   </div>);
 };
 
@@ -388,41 +402,41 @@ function App(){
   const handleEventTap=(ev,e)=>{if(e.target.closest('.ml-btn'))return;if(ev.url)window.open(ev.url,'_blank','noopener,noreferrer');};
 
   // ===== COVER =====
-  if(cover)return(<div className="max-w-[480px] mx-auto min-h-dvh bg-sf-low washi flex flex-col items-center justify-center text-center px-6 py-10 relative overflow-hidden">
+  if(cover)return(<div className="max-w-[480px] mx-auto min-h-dvh bg-sf-low washi grain flex flex-col items-center justify-center text-center px-6 py-10 relative overflow-hidden">
     <div className="absolute top-[-40px] right-[-40px] opacity-5 text-[200px] font-h select-none">🗾</div>
-    <span className="font-h text-[10px] font-bold tracking-[3px] uppercase bg-pri-c text-on-pri-c px-5 py-1.5 rounded-full">Family Expedition 2026</span>
-    <h2 className="font-h text-[42px] font-extrabold text-on-sf leading-[1.1] tracking-tight mt-6 mb-2">四国家族旅行<br/>しおり</h2>
+    <span className="num text-[10px] font-bold tracking-[3px] uppercase bg-pri-c text-on-pri-c px-5 py-1.5 rounded-full">Family Expedition 2026</span>
+    <h2 className="font-h text-[46px] font-bold text-on-sf leading-[1.05] tracking-tight mt-6 mb-2">四国家族旅行<br/><span className="serif-i text-pri">しおり</span></h2>
     <p className="text-sm text-on-sf-v font-medium">四国四県を巡る15泊16日の旅</p>
     {isTraveling?
-      <div className="mt-6 font-h text-3xl font-extrabold text-pri">🎉 旅行 {tripDay}日目！</div>
+      <div className="mt-6 font-h text-3xl font-bold text-pri">🎉 旅行 {tripDay}日目！</div>
     :diff>0?
-      <div className="grid grid-cols-4 gap-3 mt-6 w-full max-w-xs">{[[dL,"日"],[hL,"時間"],[mL,"分"],[sL,"秒"]].map(([n,u],i)=><div key={i} className="bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-ol-v/10"><span className="font-h text-3xl font-extrabold text-pri block">{String(n).padStart(2,"0")}</span><span className="text-[9px] font-bold text-on-sf-v tracking-widest uppercase">{u}</span></div>)}</div>
+      <div className="grid grid-cols-4 gap-3 mt-6 w-full max-w-xs">{[[dL,"日"],[hL,"時間"],[mL,"分"],[sL,"秒"]].map(([n,u],i)=><div key={i} className="bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-ol-v/10"><span className="num text-3xl font-extrabold text-pri block">{String(n).padStart(2,"0")}</span><span className="text-[9px] font-bold text-on-sf-v tracking-widest uppercase">{u}</span></div>)}</div>
     :null}
     <div className="flex gap-5 mt-7">{FAMILY.map(m=><div key={m.name} className="flex flex-col items-center gap-1">
       <div className="w-12 h-12 rounded-full flex items-center justify-center border-[3px] border-white shadow-md" style={{background:m.color+"22"}}><MI name={m.icon} style={{color:m.color}} size={22}/></div>
       <span className="text-[11px] font-bold">{m.name}</span><span className="text-[9px] text-on-sf-v">{m.role}</span>
     </div>)}</div>
-    <button className="mt-7 px-12 py-4 bg-pri text-on-pri rounded-full font-h font-bold text-base shadow-xl shadow-pri/30 kinetic" onClick={()=>setCover(false)}>しおりを開く</button>
+    <button className="mt-7 px-12 py-4 bg-pri text-on-pri rounded-full font-ui font-bold text-base shadow-xl shadow-pri/30 kinetic" onClick={()=>setCover(false)}>しおりを開く</button>
   </div>);
 
   // ===== MAIN APP =====
-  return(<div className="max-w-[480px] mx-auto min-h-dvh bg-sf washi relative">
+  return(<div className="max-w-[480px] mx-auto min-h-dvh bg-sf washi grain relative">
     {/* Glass Header */}
     <div className="sticky top-0 z-50 glass bg-sf/80 px-5 py-3 safe-t flex justify-between items-center border-b border-ol-v/10">
-      <h1 className="font-h font-extrabold text-lg text-pri tracking-tight cursor-pointer" onClick={()=>setCover(true)}>{tab==="schedule"?"旅のしおり":TABS.find(t=>t.id===tab)?.label}</h1>
-      <span className="inline-block px-3 py-1 rounded-full bg-ter-c text-on-ter-c text-[10px] font-bold tracking-wider stamp">Day {sel+1}/14</span>
+      <h1 className="font-h font-bold text-xl text-pri tracking-tight cursor-pointer" onClick={()=>setCover(true)}>{tab==="schedule"?"旅のしおり":TABS.find(t=>t.id===tab)?.label}</h1>
+      <span className="inline-block px-3 py-1 rounded-full bg-ter-c text-on-ter-c text-[10px] font-bold tracking-wider stamp num">Day {sel+1}/14</span>
     </div>
 
     {/* ===== SCHEDULE TAB ===== */}
     {tab==="schedule"&&<>
       {/* Day Nav */}
       <nav ref={ref} className="sticky top-[54px] z-40 glass bg-sf/80 px-4 py-3 flex gap-2 overflow-x-auto hide-sb">
-        {DAYS.map((d,i)=><button key={i} className={`flex-none px-5 py-2.5 rounded-full font-h font-bold text-xs kinetic ${sel===i?"bg-pri text-on-pri shadow-md":"bg-sf-hi text-on-sf-v hover:bg-sf-top"}`} onClick={()=>setSel(i)}>{d.emoji} Day {d.day}</button>)}
+        {DAYS.map((d,i)=><button key={i} className={`flex-none px-5 py-2.5 rounded-full num font-bold text-xs kinetic ${sel===i?"bg-pri text-on-pri shadow-md":"bg-sf-hi text-on-sf-v hover:bg-sf-top"}`} onClick={()=>setSel(i)}>{d.emoji} Day {d.day}</button>)}
       </nav>
       <div className="px-4 pt-4 pb-28" key={sel}>
         {/* Day Header Hero */}
         <div className="relative mb-5">
-          <h2 className="font-h text-4xl font-extrabold text-on-sf leading-tight tracking-tight">{day.emoji} {day.title.split("").map((c,i)=>c==="！"||c==="→"?<span key={i} className="text-ter">{c}</span>:c)}</h2>
+          <h2 className="font-h text-4xl font-bold text-on-sf leading-tight tracking-tight">{day.emoji} {day.title.split("").map((c,i)=>c==="！"||c==="→"?<span key={i} className="text-ter">{c}</span>:c)}</h2>
           <div className="flex items-center gap-3 mt-2">
             <span className="text-sm text-on-sf-v font-medium">{day.date}</span>
             <span className="px-3 py-1 bg-sf-hi rounded-full text-[10px] font-bold text-on-sf-v">{day.region}</span>
@@ -435,16 +449,16 @@ function App(){
           <div className="absolute left-[18px] top-0 bottom-0 w-[2px] bg-ol-v/20 rounded-full"/>
           {day.events.map((ev,i)=><div key={i} className="relative mb-4 animate-fade-up" style={{animationDelay:`${i*60}ms`}}>
             <div className={`absolute left-[-38px] top-3 w-10 h-10 rounded-full ${iconType(ev)} text-white flex items-center justify-center shadow-lg border-[3px] border-sf z-10`}><MI name={ev.icon} size={16}/></div>
-            <div className="bg-white rounded-xl p-5 shadow-[0_4px_24px_rgba(55,50,34,0.06)] border border-ol-v/5 overflow-hidden kinetic cursor-pointer" onClick={(e)=>handleEventTap(ev,e)}>
+            <div className="bg-white rounded-xl p-5 shadow-[0_4px_24px_rgba(55,50,34,0.06)] border border-ol-v/5 overflow-hidden kinetic lift cursor-pointer" onClick={(e)=>handleEventTap(ev,e)}>
               <SpotPhoto ev={ev} photoKey={`day${day.day}_ev${i}`} customPhotos={customPhotos} onUploadClick={(k)=>setPhotoModal(k)}/>
               <div className="flex justify-between items-start mb-1">
-                <span className="font-h font-extrabold text-pri text-sm">{ev.time}</span>
+                <span className="num font-extrabold text-pri text-sm">{ev.time}</span>
                 <div className="flex gap-1.5">
-                  {ev.confirmed&&<span className="bg-sec-c text-on-sec-c px-2.5 py-0.5 rounded-full text-[9px] font-bold stamp">確定</span>}
+                  {ev.confirmed&&<span className="bg-sec-c text-on-sec-c px-2.5 py-0.5 rounded-full text-[9px] font-bold stamp num">確定</span>}
                   {ev.warn&&<span className="bg-err-c text-white px-2.5 py-0.5 rounded-full text-[9px] font-bold pulse-soft">注意</span>}
                 </div>
               </div>
-              <h3 className="font-h font-bold text-base mt-0.5">{ev.text}{ev.url&&<MI name="open_in_new" size={10} style={{marginLeft:4,opacity:.35,verticalAlign:"middle"}}/>}</h3>
+              <h3 className="font-ui font-bold text-base mt-0.5">{ev.text}{ev.url&&<MI name="open_in_new" size={10} style={{marginLeft:4,opacity:.35,verticalAlign:"middle"}}/>}</h3>
               {ev.note&&<p className="text-xs text-on-sf-v mt-2 flex items-center gap-1"><MI name="push_pin" size={12} style={{color:"#b62524"}}/>{ev.note}</p>}
               {ev.maps&&<a href={ev.maps} target="_blank" rel="noopener noreferrer" className="ml-btn inline-flex items-center gap-1 mt-3 px-3 py-1.5 bg-pri/8 rounded-lg text-xs text-pri font-bold" onClick={e=>e.stopPropagation()}><MI name="location_on" size={13}/>地図を見る</a>}
             </div>
@@ -461,7 +475,7 @@ function App(){
                 <span className="flex items-center gap-1 text-[10px] font-bold text-on-sf-v bg-sf-low px-2 py-1 rounded"><MI name="restaurant" size={12}/>{bk.meal}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="font-h font-extrabold text-pri text-lg">{bk.amount}</span>
+                <span className="num font-extrabold text-pri text-lg">{bk.amount}</span>
                 <a className="w-9 h-9 rounded-full bg-pri text-on-pri flex items-center justify-center shadow-md kinetic" href={`https://maps.google.com/?q=${encodeURIComponent(bk.name+" "+bk.area)}`} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}><MI name="map" size={16}/></a>
               </div>
             </div>
@@ -469,7 +483,7 @@ function App(){
 
         {/* Coming Next */}
         {sel<DAYS.length-1&&<div className="mt-5 bg-pri/5 rounded-xl p-4 border-2 border-dashed border-pri/15 flex items-center justify-between kinetic cursor-pointer" onClick={()=>setSel(sel+1)}>
-          <div><span className="text-[10px] font-bold text-pri tracking-wider uppercase">Coming Next</span><div className="font-h font-bold text-base mt-0.5">{DAYS[sel+1].emoji} {DAYS[sel+1].title}</div></div>
+          <div><span className="num text-[10px] font-bold text-pri tracking-wider uppercase">Coming Next</span><div className="font-h font-bold text-base mt-0.5">{DAYS[sel+1].emoji} {DAYS[sel+1].title}</div></div>
           <MI name="arrow_forward_ios" size={18} style={{color:"#00668b"}}/>
         </div>}
       </div>
@@ -481,18 +495,18 @@ function App(){
       <section className="grid grid-cols-3 gap-3 mb-6">
         <div className="col-span-2 bg-sf-low rounded-xl p-5 space-y-2">
           <p className="text-[9px] font-bold tracking-widest uppercase text-pri">Budget Overview</p>
-          <span className="font-h font-extrabold text-3xl text-on-sf">¥110万</span>
+          <span className="num font-extrabold text-3xl text-on-sf">¥110万</span>
           <p className="text-[10px] text-on-sf-v">宿泊 ¥821,141 ＋ 食事・交通</p>
           <div className="h-2 w-full bg-sf-top rounded-full overflow-hidden flex"><div className="h-full bg-pri" style={{width:"65%"}}/><div className="h-full bg-sec" style={{width:"25%"}}/><div className="h-full bg-ter" style={{width:"10%"}}/></div>
         </div>
         <div className="bg-pri text-on-pri rounded-xl p-5 flex flex-col items-center justify-center text-center">
           <MI name="restaurant_menu" size={24} style={{marginBottom:4}}/>
           <span className="font-h text-[10px] font-bold opacity-80">食事進捗</span>
-          <span className="font-h text-2xl font-extrabold">83%</span>
+          <span className="num text-2xl font-extrabold">83%</span>
           <span className="text-[9px] opacity-70">35/42食</span>
         </div>
       </section>
-      <h3 className="font-h text-xl font-extrabold mb-4">14日間の食事プラン</h3>
+      <h3 className="font-h text-xl font-bold mb-4"><span className="serif-i text-pri">14日間</span>の食事プラン</h3>
       <div className="relative pl-8">
         <div className="absolute left-3 top-3 bottom-3 w-[2px] bg-pri-c/30 rounded-full"/>
         {MEALS.map((m,i)=><div key={i} className="relative mb-5 animate-fade-up" style={{animationDelay:`${i*40}ms`}}>
@@ -524,7 +538,7 @@ function App(){
           </div>
           <p className="text-xs text-on-sf-v mb-2">{b.desc}</p>
           <div className="flex justify-between items-center">
-            <div><div className="font-h font-extrabold text-pri text-lg">{b.amount}</div><div className="text-[9px] text-ol font-mono">予約: {b.ref}</div></div>
+            <div><div className="num font-extrabold text-pri text-lg">{b.amount}</div><div className="text-[9px] text-ol font-mono">予約: {b.ref}</div></div>
             <div className="flex gap-2">
               <button className="w-9 h-9 rounded-full bg-sf-low text-on-sf-v flex items-center justify-center kinetic" onClick={e=>{e.stopPropagation();navigator.clipboard?.writeText(b.ref);}}><MI name="content_copy" size={15}/></button>
               <a className="w-9 h-9 rounded-full bg-pri text-on-pri flex items-center justify-center kinetic" href={`https://maps.google.com/?q=${encodeURIComponent(b.name+" "+b.area)}`} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}><MI name="map" size={15}/></a>
@@ -537,7 +551,7 @@ function App(){
     {/* ===== PACKING TAB ===== */}
     {tab==="packing"&&<div className="px-4 pt-4 pb-28">
       <div className="bg-pri-c rounded-xl p-5 text-center mb-4">
-        <div className="font-h text-4xl font-extrabold text-pri">{done}/{total}</div>
+        <div className="num text-4xl font-extrabold text-pri">{done}/{total}</div>
         <p className="text-xs text-on-sf-v mt-1">{done===total?"🎉 全部準備OK！":"あと "+(total-done)+" 個！がんばろう"}</p>
         <div className="h-1.5 rounded-full overflow-hidden bg-sf-top mt-3"><div className="h-full bg-sec rounded-full transition-all duration-500" style={{width:`${(done/total)*100}%`}}/></div>
       </div>
@@ -585,14 +599,14 @@ function App(){
     {tab==="emergency"&&<div className="px-4 pt-4 pb-28">
       <div className="bg-err/5 rounded-xl p-5 mb-4 border border-err/10">
         <div className="font-h font-bold text-err flex items-center gap-2 mb-3"><MI name="emergency" fill size={18}/>緊急連絡先</div>
-        {EMERGENCY.filter(e=>e.critical).map((e,i)=><div key={i} className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name={e.icon} size={15}/>{e.label}</span><a className="font-h font-extrabold text-err text-xl tracking-wider" href={`tel:${e.number}`}>{e.number}</a></div>)}
+        {EMERGENCY.filter(e=>e.critical).map((e,i)=><div key={i} className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name={e.icon} size={15}/>{e.label}</span><a className="num font-extrabold text-err text-xl tracking-wider" href={`tel:${e.number}`}>{e.number}</a></div>)}
       </div>
       {[["医療相談","medical"],["ロードサービス","road"]].map(([title,key])=><>
         <h4 className="text-[11px] font-bold text-on-sf-v mt-4 mb-2 tracking-wider">{title}</h4>
-        {EMERGENCY.filter(e=>e[key]).map((e,i)=><div key={i} className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name={e.icon} size={15}/>{e.label}</span><a className="font-h font-extrabold text-pri text-base" href={`tel:${e.number}`}>{e.number}</a></div>)}
+        {EMERGENCY.filter(e=>e[key]).map((e,i)=><div key={i} className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name={e.icon} size={15}/>{e.label}</span><a className="num font-extrabold text-pri text-base" href={`tel:${e.number}`}>{e.number}</a></div>)}
       </>)}
       <h4 className="text-[11px] font-bold text-on-sf-v mt-4 mb-2 tracking-wider">宿泊施設</h4>
-      {EMERGENCY.filter(e=>!e.critical&&!e.medical&&!e.road).map((e,i)=><div key={i} className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name={e.icon} size={15}/>{e.label}</span><a className="font-h font-extrabold text-pri text-base" href={`tel:${e.number}`}>{e.number}</a></div>)}
+      {EMERGENCY.filter(e=>!e.critical&&!e.medical&&!e.road).map((e,i)=><div key={i} className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name={e.icon} size={15}/>{e.label}</span><a className="num font-extrabold text-pri text-base" href={`tel:${e.number}`}>{e.number}</a></div>)}
       <h4 className="text-[11px] font-bold text-on-sf-v mt-4 mb-2 tracking-wider">フェリー予約番号</h4>
       <div className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name="directions_boat" size={15}/>高松→土庄 4/25</span><span className="font-mono text-xs font-bold">0304250903</span></div>
       <div className="bg-white rounded-lg p-3 mb-1.5 flex justify-between items-center shadow-sm"><span className="text-xs font-bold flex items-center gap-2"><MI name="directions_boat" size={15}/>土庄→高松 4/27</span><span className="font-mono text-xs font-bold">0404270802</span></div>
@@ -601,9 +615,9 @@ function App(){
 
     {/* Meal Detail Modal */}
     {mealDetail&&<div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 backdrop-blur-sm" onClick={()=>setMealDetail(null)}>
-      <div className="bg-white rounded-t-3xl p-5 mx-0 max-w-[480px] w-full shadow-2xl animate-fade-up max-h-[70dvh] overflow-y-auto" onClick={e=>e.stopPropagation()}>
+      <div className="bg-white rounded-t-3xl p-5 mx-0 max-w-[480px] w-full shadow-2xl animate-slide-up max-h-[70dvh] overflow-y-auto" onClick={e=>e.stopPropagation()}>
         <div className="w-10 h-1 rounded-full bg-ol-v/30 mx-auto mb-4"/>
-        <h3 className="font-h font-extrabold text-xl mb-1">{mealDetail.name}</h3>
+        <h3 className="font-h font-bold text-xl mb-1">{mealDetail.name}</h3>
         {mealDetail.note&&<p className="text-xs text-on-sf-v mb-4 bg-sf-low rounded-lg px-3 py-2">{mealDetail.note}</p>}
         <div className="space-y-2.5">
           <div className="flex items-start gap-3"><div className="w-8 h-8 rounded-lg bg-pri/10 flex items-center justify-center flex-shrink-0"><MI name="location_on" size={16} style={{color:"#00668b"}}/></div><div><p className="text-[10px] font-bold text-on-sf-v uppercase tracking-wider">住所</p><p className="text-xs font-medium">{mealDetail.addr}</p></div></div>
@@ -622,7 +636,7 @@ function App(){
     {/* Photo Upload Modal */}
     {photoModal&&<div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={()=>setPhotoModal(null)}>
       <div className="bg-white rounded-2xl p-6 mx-4 max-w-xs w-full shadow-2xl animate-scale-in" onClick={e=>e.stopPropagation()}>
-        <h3 className="font-h font-bold text-lg mb-1">写真を変更</h3>
+        <h3 className="font-h font-bold text-lg mb-1">写真を<span className="serif-i text-pri">変更</span></h3>
         <p className="text-xs text-on-sf-v mb-4">旅行中に撮った写真で差し替えできます</p>
         <label className="flex items-center justify-center gap-2 w-full py-3 bg-pri text-on-pri rounded-xl font-bold text-sm kinetic cursor-pointer">
           <MI name="photo_camera" size={18}/>写真を選択
@@ -646,7 +660,7 @@ function App(){
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] z-50 flex justify-around items-center px-3 py-1.5 glass bg-sf/80 rounded-t-2xl border-t border-ol-v/8 shadow-[0_-4px_20px_rgba(55,50,34,0.04)] safe-b">
       {TABS.map(t=><button key={t.id} className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-full transition-all kinetic ${tab===t.id?"bg-pri text-on-pri shadow-md scale-105":"text-on-sf-v opacity-50 hover:opacity-80"}`} onClick={()=>{setTab(t.id);setFabOpen(false);}}>
         <MI name={t.icon} fill={tab===t.id} size={20}/>
-        <span className="text-[9px] font-bold">{t.label}</span>
+        <span className="text-[9px] font-bold font-b">{t.label}</span>
       </button>)}
     </nav>
   </div>);

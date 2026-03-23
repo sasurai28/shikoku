@@ -1,9 +1,9 @@
-const CACHE_NAME = 'shikoku-shiori-v5';
+const CACHE_NAME = 'shikoku-shiori-v6';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap',
+  'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap',
 ];
 
