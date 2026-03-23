@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shikoku-shiori-v2';
+const CACHE_NAME = 'shikoku-shiori-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -27,17 +27,22 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch: cache-first for same-origin & fonts, network-first for images
+// Fetch: network-first for external images, cache-first for everything else
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Images from Unsplash: network-first, cache on success
-  if (url.hostname === 'images.unsplash.com') {
+  // External images (spot photos, hotel photos, etc.): network-first, cache on success
+  if (
+    event.request.destination === 'image' &&
+    url.origin !== self.location.origin
+  ) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
           return response;
         })
         .catch(() => caches.match(event.request))
@@ -50,8 +55,10 @@ self.addEventListener('fetch', (event) => {
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
       return fetch(event.request).then((response) => {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
         return response;
       });
     })
