@@ -12,11 +12,11 @@
 <title>四国家族旅行しおり 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
-tailwind.config={darkMode:"class",theme:{extend:{colors:{"pri":"#1a7fa8","pri-c":"#8ed5f5","on-pri":"#f4f9ff","on-pri-c":"#004d6b","sec":"#4a7a00","sec-c":"#b8e86a","on-sec-c":"#3f5a00","ter":"#c43a39","ter-c":"#ffa8a0","on-ter-c":"#740009","err":"#c43a39","err-c":"#ff7b73","sf":"#fdfaf4","sf-low":"#f8f2e5","sf-mid":"#f2ebd9","sf-hi":"#ece5cf","sf-top":"#e4dcc4","on-sf":"#2c2818","on-sf-v":"#6b6555","ol":"#8a8270","ol-v":"#c0b8a6"},fontFamily:{h:["DM Serif Display","serif"],ui:["Outfit","sans-serif"],b:["Zen Maru Gothic","sans-serif"]},borderRadius:{DEFAULT:"1rem",lg:"1.5rem",xl:"2rem","2xl":"3rem",full:"9999px"},keyframes:{fadeUp:{from:{opacity:0,transform:"translateY(16px)"},to:{opacity:1,transform:"translateY(0)"}},scaleIn:{from:{opacity:0,transform:"scale(.92)"},to:{opacity:1,transform:"scale(1)"}},shimmer:{from:{backgroundPosition:"-200% 0"},to:{backgroundPosition:"200% 0"}},float:{"0%,100%":{transform:"translateY(0)"},"50%":{transform:"translateY(-6px)"}}},animation:{"fade-up":"fadeUp .5s cubic-bezier(.22,1,.36,1) both","scale-in":"scaleIn .35s cubic-bezier(.22,1,.36,1) both","shimmer":"shimmer 3s ease infinite","float":"float 4s ease-in-out infinite"}}}};
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"pri":"#1a7fa8","pri-c":"#8ed5f5","on-pri":"#f4f9ff","on-pri-c":"#004d6b","sec":"#4a7a00","sec-c":"#b8e86a","on-sec-c":"#3f5a00","ter":"#c43a39","ter-c":"#ffa8a0","on-ter-c":"#740009","err":"#c43a39","err-c":"#ff7b73","sf":"#fdfaf4","sf-low":"#f8f2e5","sf-mid":"#f2ebd9","sf-hi":"#ece5cf","sf-top":"#e4dcc4","on-sf":"#2c2818","on-sf-v":"#6b6555","ol":"#8a8270","ol-v":"#c0b8a6"},fontFamily:{h:["Zen Maru Gothic","sans-serif"],ui:["Zen Maru Gothic","sans-serif"],b:["Zen Maru Gothic","sans-serif"]},borderRadius:{DEFAULT:"1rem",lg:"1.5rem",xl:"2rem","2xl":"3rem",full:"9999px"},keyframes:{fadeUp:{from:{opacity:0,transform:"translateY(16px)"},to:{opacity:1,transform:"translateY(0)"}},scaleIn:{from:{opacity:0,transform:"scale(.92)"},to:{opacity:1,transform:"scale(1)"}},shimmer:{from:{backgroundPosition:"-200% 0"},to:{backgroundPosition:"200% 0"}},float:{"0%,100%":{transform:"translateY(0)"},"50%":{transform:"translateY(-6px)"}}},animation:{"fade-up":"fadeUp .5s cubic-bezier(.22,1,.36,1) both","scale-in":"scaleIn .35s cubic-bezier(.22,1,.36,1) both","shimmer":"shimmer 3s ease infinite","float":"float 4s ease-in-out infinite"}}}};
 </script>
 <style>
 .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
@@ -42,10 +42,8 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:#fdfaf4;color:#2c2818;-
 /* Hover lift for cards */
 .lift{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;}
 .lift:hover,.lift:active{transform:translateY(-3px);box-shadow:0 12px 40px rgba(44,40,24,.1);}
-/* Number styling with Outfit */
-.num{font-family:'Outfit',sans-serif;}
-/* Serif italic accent */
-.serif-i{font-family:'DM Serif Display',serif;font-style:italic;}
+/* Accent text */
+.serif-i{font-weight:900;}
 /* Modern card style */
 .card-modern{background:white;border-radius:1.25rem;border:1px solid rgba(138,130,112,.06);box-shadow:0 2px 12px rgba(44,40,24,.04),0 0 0 1px rgba(138,130,112,.04);}
 .card-modern:hover{box-shadow:0 8px 32px rgba(44,40,24,.08),0 0 0 1px rgba(138,130,112,.06);}
