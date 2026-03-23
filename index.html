@@ -390,18 +390,13 @@ function App(){
   const fbRemote=useRef(false);
   const photosRef=useRef(customPhotos);
   photosRef.current=customPhotos;
-  // 写真データエクスポート（一時機能）: URL末尾に #export-photos でダウンロード
+  // 写真データエクスポート（一時機能）
+  const [showExport,setShowExport]=useState(false);
   useEffect(()=>{
-    const handler=()=>{
-      if(location.hash==="#export-photos"&&Object.keys(customPhotos).length>0){
-        const blob=new Blob([JSON.stringify(customPhotos,null,2)],{type:"application/json"});
-        const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="photos-export.json";a.click();
-        URL.revokeObjectURL(a.href);history.replaceState(null,"",location.pathname);
-      }
-    };
+    const handler=()=>{if(location.hash==="#export-photos"){setShowExport(true);history.replaceState(null,"",location.pathname);}};
     window.addEventListener("hashchange",handler);handler();
     return ()=>window.removeEventListener("hashchange",handler);
-  },[customPhotos]);
+  },[]);
   // Firebase同期: リアルタイムで写真を共有
   useEffect(()=>{
     try{const s=localStorage.getItem(PHOTO_KEY);if(s)setCustomPhotos(JSON.parse(s));}catch{}
@@ -780,6 +775,19 @@ function App(){
         <span className="text-[9px] font-bold font-b">{t.label}</span>
       </button>)}
     </nav>
+
+    {/* Export Modal */}
+    {showExport&&<div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/40 backdrop-blur-md" onClick={()=>setShowExport(false)}>
+      <div className="bg-white rounded-2xl p-5 mx-4 max-w-[440px] w-full max-h-[80dvh] flex flex-col" onClick={e=>e.stopPropagation()}>
+        <h3 className="font-h font-bold text-base mb-3">写真データ</h3>
+        <p className="text-[10px] text-on-sf-v/60 mb-3">下のテキストを全選択→コピーして貼り付けてください</p>
+        <textarea readOnly className="flex-1 min-h-[200px] w-full p-3 rounded-xl text-[10px] font-mono leading-relaxed resize-none" style={{background:"rgba(138,130,112,.04)",border:"1px solid rgba(138,130,112,.1)"}} value={JSON.stringify(customPhotos,null,2)} onFocus={e=>e.target.select()}/>
+        <div className="flex gap-2 mt-3">
+          <button className="flex-1 py-2.5 rounded-xl text-white font-bold text-xs" style={{background:"linear-gradient(135deg,#1a7fa8,#2b9ac4)"}} onClick={()=>{navigator.clipboard.writeText(JSON.stringify(customPhotos,null,2)).then(()=>alert("コピーしました！")).catch(()=>{});}}>コピー</button>
+          <button className="flex-1 py-2.5 rounded-xl font-bold text-xs" style={{background:"rgba(138,130,112,.06)"}} onClick={()=>setShowExport(false)}>閉じる</button>
+        </div>
+      </div>
+    </div>}
   </div>);
 }
 
