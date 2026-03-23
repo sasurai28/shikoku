@@ -371,19 +371,20 @@ function App(){
   useEffect(()=>{const t=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(t);},[]);
   useEffect(()=>{try{const s=localStorage.getItem(STORAGE_KEY);if(s)setChk(JSON.parse(s));}catch{}},[]);
   useEffect(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(chk));}catch{}},[chk]);
-  const memoRemote=useRef(false);
   useEffect(()=>{
     try{const s=localStorage.getItem(MEMO_KEY);if(s)setMemos(JSON.parse(s));}catch{}
     return fbMemos.listen(
-      (path,data)=>{memoRemote.current=true;if(path==="/"){setMemos(Array.isArray(data)?data:data?Object.values(data):[]);}},
-      (path,data)=>{memoRemote.current=true;if(path==="/"){setMemos(p=>{const merged=Array.isArray(data)?data:data?Object.values(data):[];return merged.length>p.length?merged:p;});}}
+      (path,data)=>{
+        const arr=Array.isArray(data)?data:data?Object.values(data):[];
+        setMemos(arr);
+        try{localStorage.setItem(MEMO_KEY,JSON.stringify(arr));}catch{}
+      },
+      (path,data)=>{
+        const arr=Array.isArray(data)?data:data?Object.values(data):[];
+        setMemos(p=>{const m=arr.length>p.length?arr:p;try{localStorage.setItem(MEMO_KEY,JSON.stringify(m));}catch{}return m;});
+      }
     );
   },[]);
-  useEffect(()=>{
-    try{localStorage.setItem(MEMO_KEY,JSON.stringify(memos));}catch{}
-    if(memoRemote.current){memoRemote.current=false;return;}
-    if(memos.length>0)fbMemos.putAll(memos);
-  },[memos]);
   useEffect(()=>{try{const s=localStorage.getItem(PACKING_CUSTOM_KEY);if(s)setPackCustom(JSON.parse(s));}catch{}},[]);
   useEffect(()=>{try{localStorage.setItem(PACKING_CUSTOM_KEY,JSON.stringify(packCustom));}catch{}},[packCustom]);
   const fbRemote=useRef(false);
@@ -474,7 +475,7 @@ function App(){
     return"bg-pri";
   };
 
-  const sendMemo=()=>{const t=memoText.trim();if(!t)return;setMemos(p=>[...p,{sender:memoSender,text:t,time:new Date().toISOString()}]);setMemoText("");};
+  const sendMemo=()=>{const t=memoText.trim();if(!t)return;const newMemos=[...memos,{sender:memoSender,text:t,time:new Date().toISOString()}];setMemos(newMemos);try{localStorage.setItem(MEMO_KEY,JSON.stringify(newMemos));}catch{}fbMemos.putAll(newMemos);setMemoText("");};
   const addCustomItem=(ci)=>{const t=newItemText.trim();if(!t)return;setPackCustom(p=>({...p,[ci]:[...(p[ci]||[]),t]}));setNewItemText("");};
   const deleteItem=(catIdx,itemIdx)=>{
     const cat=PACKING[catIdx];const defaultLen=DEFAULT_PACKING[catIdx].items.length;
