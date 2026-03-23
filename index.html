@@ -65,11 +65,12 @@ body{font-family:'Zen Maru Gothic',sans-serif;background:#fdfaf4;color:#2c2818;-
 const FB_DB_URL="https://shikoku-trip-e8a25-default-rtdb.asia-southeast1.firebasedatabase.app";
 const FB_PATH="/photos";
 const fbSync={
-  put(data){return fetch(FB_DB_URL+FB_PATH+".json",{method:"PUT",body:JSON.stringify(data),headers:{"Content-Type":"application/json"}}).catch(e=>console.warn("sync write error:",e));},
-  listen(cb){
+  put(key,value){return fetch(FB_DB_URL+FB_PATH+"/"+encodeURIComponent(key)+".json",{method:"PUT",body:JSON.stringify(value),headers:{"Content-Type":"application/json"}}).catch(e=>console.warn("sync write error:",e));},
+  del(key){return fetch(FB_DB_URL+FB_PATH+"/"+encodeURIComponent(key)+".json",{method:"DELETE"}).catch(e=>console.warn("sync delete error:",e));},
+  listen(onPut,onPatch){
     const es=new EventSource(FB_DB_URL+FB_PATH+".json");
-    es.addEventListener("put",e=>{try{const d=JSON.parse(e.data);cb(d.data);}catch{}});
-    es.addEventListener("patch",e=>{try{const d=JSON.parse(e.data);cb(d.data);}catch{}});
+    es.addEventListener("put",e=>{try{const d=JSON.parse(e.data);onPut(d.path,d.data);}catch{}});
+    es.addEventListener("patch",e=>{try{const d=JSON.parse(e.data);onPatch(d.path,d.data);}catch{}});
     es.onerror=()=>{console.warn("sync connection lost, retrying...");};
     return()=>es.close();
   }
@@ -373,18 +374,27 @@ function App(){
   useEffect(()=>{try{const s=localStorage.getItem(PACKING_CUSTOM_KEY);if(s)setPackCustom(JSON.parse(s));}catch{}},[]);
   useEffect(()=>{try{localStorage.setItem(PACKING_CUSTOM_KEY,JSON.stringify(packCustom));}catch{}},[packCustom]);
   const fbRemote=useRef(false);
+  const photosRef=useRef(customPhotos);
+  photosRef.current=customPhotos;
   // Firebase同期: リアルタイムで写真を共有
   useEffect(()=>{
     try{const s=localStorage.getItem(PHOTO_KEY);if(s)setCustomPhotos(JSON.parse(s));}catch{}
-    return fbSync.listen((data)=>{
-      fbRemote.current=true;
-      setCustomPhotos(data||{});
-    });
+    return fbSync.listen(
+      (path,data)=>{
+        fbRemote.current=true;
+        if(path==="/"){setCustomPhotos(data||{});}
+        else{const key=path.replace(/^\//,"");setCustomPhotos(p=>data===null?((k)=>{const n={...p};delete n[k];return n;})(key):{...p,[key]:data});}
+      },
+      (path,data)=>{
+        fbRemote.current=true;
+        if(path==="/"){setCustomPhotos(p=>({...p,...(data||{})}));}
+        else{const key=path.replace(/^\//,"");setCustomPhotos(p=>({...p,[key]:data}));}
+      }
+    );
   },[]);
   useEffect(()=>{
     try{localStorage.setItem(PHOTO_KEY,JSON.stringify(customPhotos));}catch{}
     if(fbRemote.current){fbRemote.current=false;return;}
-    fbSync.put(customPhotos);
   },[customPhotos]);
   useEffect(()=>{try{const s=localStorage.getItem(MONEY_KEY);if(s==="1")setShowMoney(true);}catch{}},[]);
   useEffect(()=>{if(chatEndRef.current)chatEndRef.current.scrollIntoView({behavior:"smooth"});},[memos]);
@@ -405,6 +415,7 @@ function App(){
         canvas.getContext("2d").drawImage(img,0,0,w,h);
         const dataUrl=canvas.toDataURL("image/jpeg",0.8);
         setCustomPhotos(p=>({...p,[key]:dataUrl}));
+        fbSync.put(key,dataUrl);
         setPhotoModal(null);
       };
       img.src=ev.target.result;
@@ -711,7 +722,7 @@ function App(){
           <MI name="photo_camera" size={18}/>写真を選択
           <input type="file" accept="image/*" className="hidden" onChange={(e)=>handlePhotoUpload(photoModal,e)}/>
         </label>
-        {customPhotos[photoModal]&&<button className="w-full mt-2.5 py-2.5 rounded-xl font-bold text-xs kinetic" style={{background:"rgba(196,58,57,.06)",color:"#c43a39"}} onClick={()=>{setCustomPhotos(p=>{const n={...p};delete n[photoModal];return n;});setPhotoModal(null);}}>元の写真に戻す</button>}
+        {customPhotos[photoModal]&&<button className="w-full mt-2.5 py-2.5 rounded-xl font-bold text-xs kinetic" style={{background:"rgba(196,58,57,.06)",color:"#c43a39"}} onClick={()=>{const k=photoModal;setCustomPhotos(p=>{const n={...p};delete n[k];return n;});fbSync.del(k);setPhotoModal(null);}}>元の写真に戻す</button>}
         <button className="w-full mt-2 py-2 text-on-sf-v/50 text-xs font-medium" onClick={()=>setPhotoModal(null)}>キャンセル</button>
       </div>
     </div>}
