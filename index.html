@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#8b4749">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="旅のしおり">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%238b4749' rx='36' width='180' height='180'/><text x='90' y='124' text-anchor='middle' font-size='96'>🗾</text></svg>">
+<title>四国家族旅行しおり 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+:root{--p:#8b4749;--pc:#fba4a4;--op:#ffefee;--s:#006381;--sc:#90dbff;--t:#635d15;--tc:#f7ee96;--sf:#f8f6f2;--sl:#f2f1ec;--sc2:#e9e8e4;--sh:#e4e2de;--sw:#ffffff;--ink:#2e2f2d;--ink2:#5b5c59;--ol:#777774;--olv:#aeadaa;--err:#b41340;--fh:'Plus Jakarta Sans','Zen Maru Gothic',sans-serif;--fb:'Zen Maru Gothic',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--fb);background:var(--sf);color:var(--ink);-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}.mi-fill{font-variation-settings:'FILL' 1,'wght' 400;}
+.app{max-width:480px;margin:0 auto;min-height:100dvh;background:var(--sf);position:relative;}
+.washi::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--p) .4px,transparent .4px);background-size:20px 20px;opacity:.02;pointer-events:none;z-index:0;}
+.glass{position:sticky;top:0;z-index:50;padding:14px 20px;padding-top:max(14px,env(safe-area-inset-top));background:rgba(248,246,242,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(174,173,170,.12);}
+.glass h1{font-family:var(--fh);font-weight:800;font-size:17px;color:var(--p);letter-spacing:-.3px;cursor:pointer;}
+.cover{min-height:100dvh;background:var(--sl);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 24px;position:relative;overflow:hidden;}
+.cover-deco{position:absolute;opacity:.05;font-size:200px;top:-40px;right:-40px;font-family:'Material Symbols Outlined';}
+.cover-badge{font-family:var(--fh);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--p);background:var(--pc);padding:6px 20px;border-radius:99px;}
+.cover h2{font-family:var(--fh);font-size:38px;font-weight:800;color:var(--ink);line-height:1.15;letter-spacing:-1px;margin:20px 0 6px;}
+.cover-sub{font-size:14px;color:var(--ink2);font-weight:500;}
+.fam-grid{display:flex;gap:18px;margin-top:28px;}
+.fam-av{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.07);}
+.cd-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;width:100%;max-width:280px;}
+.cd-cell{background:var(--sw);padding:14px 8px;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.04);border:1px solid rgba(174,173,170,.1);}
+.cd-num{font-family:var(--fh);font-size:30px;font-weight:800;color:var(--p);display:block;}
+.cd-unit{font-size:10px;font-weight:700;color:var(--ink2);letter-spacing:2px;text-transform:uppercase;}
+.cover-btn{margin-top:28px;padding:14px 48px;background:var(--p);color:var(--op);border:none;border-radius:99px;font-family:var(--fh);font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(139,71,73,.3);transition:transform .15s;-webkit-tap-highlight-color:transparent;}
+.cover-btn:active{transform:scale(.96);}
+.day-nav{position:sticky;top:54px;z-index:40;background:rgba(248,246,242,.82);backdrop-filter:blur(12px);padding:12px 20px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.day-nav::-webkit-scrollbar{display:none;}
+.dc{flex-shrink:0;padding:8px 14px;border-radius:99px;background:var(--sl);color:var(--ink2);font-family:var(--fh);font-size:12px;font-weight:600;border:none;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.dc.a{background:var(--p);color:var(--op);box-shadow:0 2px 10px rgba(139,71,73,.25);}
+.ct{padding:20px;padding-bottom:110px;position:relative;z-index:1;}
+.dh{background:var(--sl);border-radius:16px;padding:22px;margin-bottom:14px;position:relative;overflow:hidden;}
+.dh .dl{font-family:var(--fh);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--p);}
+.dh h3{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--ink);margin:4px 0;letter-spacing:-.4px;}
+.dh .dd{font-size:13px;color:var(--ink2);font-weight:500;}
+.sb{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 12px;background:var(--sc);border-radius:99px;font-size:11px;font-weight:600;color:var(--s);}
+.rg{position:absolute;top:14px;right:14px;padding:4px 10px;background:var(--sh);border-radius:8px;font-size:10px;font-weight:600;color:var(--ink2);}
+.wn{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;margin-bottom:14px;background:rgba(144,219,255,.12);border-left:3px solid var(--s);border-radius:10px;}
+.wn p{font-size:12px;color:var(--ink2);font-weight:500;line-height:1.5;}
+.tl{position:relative;padding-left:30px;}.tl::before{content:'';position:absolute;left:10px;top:14px;bottom:14px;width:2px;background-image:repeating-linear-gradient(to bottom,var(--sc) 0 4px,transparent 4px 8px);}
+.ti{position:relative;margin-bottom:10px;}
+.td{position:absolute;left:-30px;top:12px;width:20px;height:20px;border-radius:50%;background:var(--s);color:#fff;display:flex;align-items:center;justify-content:center;z-index:1;}
+.td.h{background:var(--p);}.td.f{background:var(--t);}.td.w{background:var(--err);}
+.tc{background:var(--sw);border-radius:10px;padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.03);border:1px solid rgba(174,173,170,.06);overflow:hidden;}
+.tt{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--s);letter-spacing:.5px;}
+.tx{font-size:14px;font-weight:600;margin-top:2px;color:var(--ink);}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.ch-ok{display:inline-flex;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:700;background:rgba(99,93,21,.1);color:var(--t);}
+.ch-w{display:inline-flex;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:700;background:rgba(180,19,64,.08);color:var(--err);}
+.tn{font-size:11px;color:var(--p);margin-top:5px;font-weight:500;display:flex;align-items:center;gap:3px;}
+.ml{display:inline-flex;align-items:center;gap:3px;margin-top:6px;padding:3px 10px;background:rgba(0,99,129,.08);border-radius:8px;font-size:11px;color:var(--s);font-weight:600;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+/* Spot photo banner */
+.sp{margin:-12px -14px 10px;height:100px;border-radius:10px 10px 0 0;overflow:hidden;position:relative;}
+.sp img{width:100%;height:100%;object-fit:cover;display:block;}
+.sp-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;}
+.sp-fallback .sp-emoji{font-size:42px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2));position:relative;z-index:1;}
+.sp-label{position:absolute;bottom:4px;right:8px;font-size:9px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.5px;z-index:2;text-shadow:0 1px 3px rgba(0,0,0,.3);}
+/* Hotel rich card */
+.hc{border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid #fff;margin-bottom:12px;background:var(--sw);}
+.hc-img{position:relative;height:140px;display:flex;align-items:flex-end;padding:14px 16px;overflow:hidden;}
+.hc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hc-img-fb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.hc-img-fb span{font-size:56px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2));opacity:.9;}
+.hc-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,rgba(0,0,0,.08) 55%,rgba(0,0,0,0) 100%);z-index:1;}
+.hc-tag{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);padding:4px 10px;border-radius:99px;font-size:9px;font-weight:700;color:var(--p);letter-spacing:1px;text-transform:uppercase;z-index:3;}
+.hc-tag.premium{background:rgba(139,71,73,.9);color:#fff;}
+.hc-name{color:#fff;font-family:var(--fh);font-size:17px;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.4);position:relative;z-index:2;}
+.hc-area{color:rgba(255,255,255,.85);font-size:11px;font-weight:500;position:relative;z-index:2;}
+.hc-body{padding:14px 16px;}
+.hc-meta{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+.hc-chip{display:flex;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--ink2);background:var(--sl);padding:3px 8px;border-radius:6px;}
+.hc-chip .material-symbols-outlined{font-size:13px;}
+.hc-desc{font-size:12px;color:var(--ink2);line-height:1.5;margin-bottom:10px;}
+.hc-footer{display:flex;justify-content:space-between;align-items:center;}
+.hc-price{font-family:var(--fh);font-size:18px;font-weight:800;color:var(--p);}
+.hc-ref{font-size:9px;color:var(--olv);font-family:monospace;}
+.hc-actions{display:flex;gap:6px;}
+.hc-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.hc-btn:active{transform:scale(.9);}
+.hc-btn-primary{background:var(--p);color:var(--op);}
+.hc-btn-ghost{background:var(--sl);color:var(--ink2);}
+.bb{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:20px;}
+.bm{background:var(--sw);border-radius:14px;padding:18px;box-shadow:0 1px 6px rgba(0,0,0,.03);border:1px solid rgba(174,173,170,.06);}
+.bs{background:var(--p);color:var(--op);border-radius:14px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.md{position:relative;padding-left:36px;margin-bottom:20px;}
+.mn{position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--s);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:700;}
+.mh{font-family:var(--fh);font-weight:700;font-size:13px;color:var(--ink);margin-bottom:6px;}
+.mr{background:var(--sw);border-radius:8px;padding:8px 12px;margin-bottom:3px;display:flex;align-items:center;gap:8px;border:1px solid rgba(174,173,170,.04);}
+.mt{font-size:9px;font-weight:700;color:#fff;padding:2px 7px;border-radius:5px;flex-shrink:0;}.mt.b{background:#f4b183;}.mt.l{background:var(--s);}.mt.d{background:var(--p);}
+.mn2{font-size:12px;font-weight:500;flex:1;}.mn2.w{color:var(--err);font-weight:700;}
+.me{font-size:14px;flex-shrink:0;}
+.ms{font-size:8px;font-weight:700;padding:2px 6px;border-radius:5px;}.ms.ok{color:var(--t);background:rgba(99,93,21,.07);}.ms.wn2{color:var(--err);background:rgba(180,19,64,.05);}
+.ps{background:var(--pc);border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;}
+.psn{font-family:var(--fh);font-size:40px;font-weight:800;color:var(--p);}
+.pss{font-size:12px;color:var(--ink2);margin-top:4px;}
+.ppb{height:5px;border-radius:5px;overflow:hidden;background:var(--sc2);margin-top:10px;}
+.ppf{height:100%;background:var(--t);border-radius:5px;transition:width .4s;}
+.pbg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.pbc{background:var(--sw);border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.02);border:1px solid rgba(174,173,170,.04);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.pbc:active{transform:scale(.97);}.pbc.a{border-color:var(--p);background:rgba(251,164,164,.06);}
+.pbn{font-size:12px;font-weight:700;margin-top:6px;}.pbt{font-size:10px;color:var(--ink2);margin-top:2px;}
+.pds{display:flex;gap:3px;margin-top:6px;}.pd{width:5px;height:5px;border-radius:50%;background:var(--sc2);}.pd.dn{background:var(--t);}
+.pi{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--sw);border-radius:8px;margin-bottom:3px;cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;}
+.pi:active{transform:scale(.98);}
+.pcb{width:20px;height:20px;border-radius:5px;border:2px solid var(--olv);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.pcb.dn{background:var(--t);border-color:var(--t);color:#fff;}
+.pit{font-size:13px;font-weight:500;transition:all .2s;}.pit.dn{text-decoration:line-through;color:var(--ink2);}
+.ec{background:rgba(255,239,239,.5);border-radius:14px;padding:18px;margin-bottom:14px;border:1px solid rgba(247,75,109,.12);}
+.ect{font-family:var(--fh);font-weight:700;font-size:14px;color:var(--err);display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.ecd{background:var(--sw);border-radius:8px;padding:10px 14px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.02);}
+.el{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.en{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--p);text-decoration:none;letter-spacing:.5px;}
+.es{font-size:11px;font-weight:700;color:var(--ink2);margin:14px 0 6px 2px;letter-spacing:.3px;}
+.fr{background:var(--sl);border-radius:10px;padding:12px;margin-top:14px;text-align:center;border:1px dashed var(--olv);font-size:11px;color:var(--ink2);}
+.bn2{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:50;display:flex;justify-content:space-around;align-items:center;padding:6px 16px calc(6px + env(safe-area-inset-bottom,20px));background:rgba(248,246,242,.78);backdrop-filter:blur(20px);border-top-left-radius:24px;border-top-right-radius:24px;border-top:1px solid rgba(174,173,170,.1);box-shadow:0 -4px 20px rgba(0,0,0,.04);}
+.ni{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 14px;border-radius:99px;color:var(--ink2);opacity:.55;transition:all .2s;background:transparent;border:none;cursor:pointer;font-family:var(--fb);-webkit-tap-highlight-color:transparent;}
+.ni.a{opacity:1;background:rgba(139,71,73,.1);color:var(--p);}
+.ni span:last-child{font-size:10px;font-weight:600;}
+.fab{position:fixed;bottom:calc(70px + env(safe-area-inset-bottom,20px));right:max(calc((100% - 480px)/2 + 16px),16px);z-index:45;width:52px;height:52px;border-radius:50%;background:var(--p);color:var(--op);border:none;cursor:pointer;box-shadow:0 6px 24px rgba(139,71,73,.35);display:flex;align-items:center;justify-content:center;transition:all .25s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent;}
+.fab:active{transform:scale(.9);}.fab.open{transform:rotate(45deg);background:var(--ink);box-shadow:0 6px 24px rgba(46,47,45,.3);}
+.fab-menu{position:fixed;bottom:calc(132px + env(safe-area-inset-bottom,20px));right:max(calc((100% - 480px)/2 + 8px),8px);z-index:44;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none;opacity:0;transform:translateY(12px);transition:all .25s cubic-bezier(.4,0,.2,1);}
+.fab-menu.open{pointer-events:auto;opacity:1;transform:translateY(0);}
+.fab-action{display:flex;align-items:center;gap:8px;background:var(--sw);border-radius:12px;padding:10px 14px;box-shadow:0 4px 16px rgba(0,0,0,.1);cursor:pointer;transition:all .15s;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--ink);border:none;-webkit-tap-highlight-color:transparent;}
+.fab-action:active{transform:scale(.96);}.fab-action .material-symbols-outlined{font-size:18px;color:var(--p);}
+.fab-overlay{position:fixed;inset:0;background:rgba(46,47,45,.15);z-index:43;backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .25s;}
+.fab-overlay.open{opacity:1;pointer-events:auto;}
+/* Install prompt */
+.install-banner{position:fixed;bottom:calc(70px + env(safe-area-inset-bottom,20px));left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:440px;z-index:60;background:var(--sw);border-radius:16px;padding:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);display:flex;gap:12px;align-items:center;border:1px solid rgba(174,173,170,.1);}
+.install-banner button{flex-shrink:0;padding:8px 18px;border-radius:99px;font-family:var(--fh);font-size:12px;font-weight:700;border:none;cursor:pointer;}
+.install-banner .ib-install{background:var(--p);color:var(--op);}
+.install-banner .ib-close{background:var(--sl);color:var(--ink2);}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" data-type="module">
+const {useState,useEffect,useRef} = React;
+
+const STORAGE_KEY = "shikoku-trip-v3";
+
+const FAMILY = [
+  {name:"ゆうき",role:"パパ",icon:"directions_car",color:"#006381"},
+  {name:"ママ",role:"ママ",icon:"face_3",color:"#8b4749"},
+  {name:"愛生",role:"3歳",icon:"child_care",color:"#f4b183"},
+  {name:"いもうと",role:"1歳",icon:"crib",color:"#b5d99c"},
+];
+const TABS = [
+  {id:"schedule",icon:"calendar_today",label:"予定"},
+  {id:"meals",icon:"restaurant",label:"ごはん"},
+  {id:"packing",icon:"luggage",label:"持ち物"},
+  {id:"emergency",icon:"emergency",label:"緊急"},
+];
+
+const DAYS=[
+{day:1,date:"4/23(木)",title:"淡路島へ出発！",emoji:"🎀",region:"淡路島",stay:"Nook The Cliff",stayArea:"淡路市下司",events:[
+{time:"8:00",text:"大阪出発！",icon:"directions_car",maps:"https://maps.google.com/?q=大阪市大正区千島"},
+{time:"10:00",text:"HELLO KITTY SMILE",icon:"attractions",maps:"https://maps.google.com/?q=HELLO+KITTY+SMILE+淡路島",img:"https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#ff6b9d,#ffa8c5)",femoji:"🎀",flabel:"淡路島"},
+{time:"11:30",text:"キティちゃんショー＆ランチ",icon:"restaurant",maps:"https://maps.google.com/?q=HELLO+KITTY+SHOW+BOX",confirmed:true},
+{time:"15:00",text:"Nook チェックイン",icon:"hotel",maps:"https://maps.google.com/?q=34.405222,134.894639",note:"到着前に080-7644-5695に連絡"},
+{time:"夕方",text:"BBQディナー",icon:"outdoor_grill"},
+]},
+{day:2,date:"4/24(金)",title:"おさるさんに会いに！",emoji:"🐒",region:"さぬき市",stay:"旅宿にった",stayArea:"さぬき市",events:[
+{time:"9:00",text:"Nook チェックアウト（朝食付）",icon:"wb_sunny"},
+{time:"9:30",text:"モンキーセンター",icon:"pets",maps:"https://maps.google.com/?q=淡路島モンキーセンター",img:"https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#4a7c59,#8fbc8f)",femoji:"🐒",flabel:"淡路島南"},
+{time:"12:00",text:"びんび家 or ちゃりこで昼食",icon:"restaurant",maps:"https://maps.google.com/?q=びんび家+鳴門"},
+{time:"15:00",text:"にったチェックイン",icon:"hotel",maps:"https://maps.google.com/?q=旅宿にった+さぬき市"},
+{time:"18:00",text:"にった夕食",icon:"dining"},
+]},
+{day:3,date:"4/25(土)",title:"イルカと遊ぼう！→小豆島",emoji:"🐬",region:"小豆島",stay:"海辺の宿 入舟",stayArea:"土庄",events:[
+{time:"9:00",text:"にったチェックアウト（朝食付）",icon:"wb_sunny"},
+{time:"10:30",text:"ドルフィンセンター体験",icon:"pool",maps:"https://maps.google.com/?q=日本ドルフィンセンター",confirmed:true,note:"GW臨時P→シャトルバス",img:"https://images.unsplash.com/photo-1607153333879-c174d265f1d2?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#0077b6,#48cae4)",femoji:"🐬",flabel:"さぬき市"},
+{time:"12:30",text:"高松でうどん",icon:"ramen_dining",maps:"https://maps.google.com/?q=もり家+高松シンボルタワー"},
+{time:"13:40",text:"フェリー乗船 高松→小豆島",icon:"directions_boat",maps:"https://maps.google.com/?q=高松港+フェリー乗り場",note:"車検証必須！30分前到着",warn:true},
+{time:"14:40",text:"土庄港→入舟チェックイン",icon:"hotel",maps:"https://maps.google.com/?q=海辺の宿入舟+小豆島"},
+{time:"17:30",text:"島活で夕食",icon:"restaurant",confirmed:true},
+]},
+{day:4,date:"4/26(日)",title:"小豆島たんけん",emoji:"🫒",region:"小豆島",stay:"海辺の宿 入舟",stayArea:"土庄",events:[
+{time:"8:30",text:"プラットピットで朝食",icon:"coffee",maps:"https://maps.google.com/?q=プラットピット+土庄"},
+{time:"9:30",text:"迷路のまち散策",icon:"explore",maps:"https://maps.google.com/?q=迷路のまち+小豆島"},
+{time:"10:00",text:"オリーブ公園（風車）",icon:"park",maps:"https://maps.google.com/?q=小豆島オリーブ公園",img:"https://images.unsplash.com/photo-1530968464888-bc8c1b49e294?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#588157,#a7c957)",femoji:"🫒",flabel:"小豆島"},
+{time:"11:30",text:"MINORI GELATO",icon:"icecream",maps:"https://maps.google.com/?q=MINORI+GELATO+小豆島"},
+{time:"12:00",text:"kamos ピザランチ",icon:"local_pizza",confirmed:true},
+{time:"13:30",text:"エンジェルロード",icon:"landscape",maps:"https://maps.google.com/?q=エンジェルロード+小豆島",img:"https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#89c2d9,#a9d6e5)",femoji:"👼",flabel:"干潮時限定"},
+{time:"17:30",text:"味彩で夕食",icon:"restaurant",note:"⚠️要予約",warn:true},
+]},
+{day:5,date:"4/27(月)",title:"小豆島→丸亀・骨付鳥！",emoji:"🍗",region:"丸亀",stay:"東横INN丸亀駅前",stayArea:"丸亀",events:[
+{time:"8:30",text:"朝食",icon:"wb_sunny"},
+{time:"10:00",text:"入舟チェックアウト",icon:"hotel"},
+{time:"12:00",text:"なかぶ庵で生そうめん",icon:"ramen_dining",maps:"https://maps.google.com/?q=なかぶ庵+小豆島",note:"⏳返信待ち"},
+{time:"13:55",text:"フェリー 小豆島→高松",icon:"directions_boat",note:"車検証必須！",warn:true},
+{time:"15:30",text:"東横INNチェックイン",icon:"hotel",maps:"https://maps.google.com/?q=東横INN丸亀駅前"},
+{time:"17:30",text:"一鶴で骨付鳥",icon:"restaurant",maps:"https://maps.google.com/?q=一鶴+丸亀本店",confirmed:true},
+]},
+{day:6,date:"4/28(火)",title:"レオマ＆パンどろぼう！",emoji:"🎡",region:"丸亀",stay:"ホテルレオマの森",stayArea:"丸亀",events:[
+{time:"7:00",text:"朝うどん（岡じま等）",icon:"ramen_dining",maps:"https://maps.google.com/?q=岡じま+丸亀+うどん"},
+{time:"9:30",text:"パンどろぼうフェスティバル",icon:"attractions",maps:"https://maps.google.com/?q=レオマワールド",note:"朝イチでパロットシアターへ！",img:"https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#7b2cbf,#c77dff)",femoji:"🍞",flabel:"レオマワールド"},
+{time:"10:30",text:"ごっこタウン→キッズコースター",icon:"attractions"},
+{time:"13:00",text:"パレード1回目",icon:"celebration"},
+{time:"13:30",text:"ホテルでお昼寝",icon:"bedtime"},
+{time:"17:30",text:"パレード2回目＋花火",icon:"fireworks",note:"4/28は花火開催日！"},
+{time:"18:00",text:"温泉→バイキング夕食",icon:"hot_tub"},
+]},
+{day:7,date:"4/29(水祝)",title:"水族館→道後温泉",emoji:"🐠",region:"松山",stay:"ふなや",stayArea:"道後温泉",events:[
+{time:"9:00",text:"レオマの森チェックアウト",icon:"wb_sunny"},
+{time:"9:30",text:"四国水族館",icon:"water",maps:"https://maps.google.com/?q=四国水族館",note:"開館直後→2F太平洋水槽→イルカ",img:"https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#023e8a,#0096c7)",femoji:"🐠",flabel:"宇多津"},
+{time:"11:30",text:"松山へ（約2h昼寝ドライブ）",icon:"directions_car"},
+{time:"14:30",text:"ふなやチェックイン",icon:"spa",maps:"https://maps.google.com/?q=ふなや+道後温泉"},
+{time:"夕方",text:"お部屋食ディナー",icon:"dining"},
+]},
+{day:8,date:"4/30(木)",title:"動物園＆道後さんぽ",emoji:"🐘",region:"松山",stay:"ふなや",stayArea:"道後温泉",events:[
+{time:"9:00",text:"とべ動物園",icon:"pets",maps:"https://maps.google.com/?q=とべ動物園",note:"GW→東P＋シャトルバス",img:"https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#606c38,#dda15e)",femoji:"🐘",flabel:"砥部町"},
+{time:"11:30",text:"園内レストラン or haco",icon:"restaurant"},
+{time:"14:00",text:"道後温泉街さんぽ",icon:"temple_buddhist",maps:"https://maps.google.com/?q=道後温泉+ハイカラ通り",note:"カラクリ時計→足湯→食べ歩き",img:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#8b4749,#d4a373)",femoji:"♨️",flabel:"道後温泉"},
+{time:"16:00",text:"飛鳥乃湯泉 家族風呂",icon:"hot_tub",maps:"https://maps.google.com/?q=飛鳥乃湯泉",note:"⚠️要予約 089-932-1126",warn:true},
+{time:"夕方",text:"お部屋食ディナー",icon:"dining"},
+]},
+{day:9,date:"5/1(金)",title:"絶景！四国カルスト",emoji:"⛰️",region:"西予市",stay:"宝泉坊ロッジ",stayArea:"城川町",events:[
+{time:"9:00",text:"ふなやチェックアウト",icon:"wb_sunny"},
+{time:"9:30",text:"下灘駅で写真",icon:"photo_camera",maps:"https://maps.google.com/?q=下灘駅",note:"海に一番近い駅！",img:"https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#f77f00,#fcbf49)",femoji:"🚉",flabel:"伊予市"},
+{time:"10:30",text:"四国カルストへ（山道2h）",icon:"directions_car",note:"酔い止め！防寒着！",warn:true},
+{time:"12:30",text:"カルスト到着→ランチ",icon:"terrain",maps:"https://maps.google.com/?q=四国カルスト",img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#2d6a4f,#95d5b2)",femoji:"⛰️",flabel:"標高1,400m"},
+{time:"14:30",text:"大野ケ原ミルク園",icon:"icecream"},
+{time:"15:30",text:"宝泉坊ロッジ＋温泉",icon:"hot_tub",maps:"https://maps.google.com/?q=宝泉坊ロッジ"},
+]},
+{day:10,date:"5/2(土)",title:"柏島のうみ→足摺岬",emoji:"🏖️",region:"足摺",stay:"TheMana Village",stayArea:"足摺岬",events:[
+{time:"8:00",text:"宝泉坊チェックアウト",icon:"wb_sunny"},
+{time:"10:30",text:"柏島で浜遊び",icon:"beach_access",maps:"https://maps.google.com/?q=柏島+高知",note:"透明度抜群の海！",img:"https://images.unsplash.com/photo-1544551763-92ab472cad1d?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#00b4d8,#90e0ef)",femoji:"🏖️",flabel:"大月町"},
+{time:"13:30",text:"足摺岬へ移動（約1h）",icon:"directions_car"},
+{time:"15:00",text:"TheMana チェックイン",icon:"villa",maps:"https://maps.google.com/?q=TheMana+Village+足摺"},
+{time:"夕方",text:"オールインクルーシブディナー",icon:"dining"},
+]},
+{day:11,date:"5/3(日)",title:"四万十川→高知",emoji:"🏞️",region:"高知",stay:"亀の井ホテル高知",stayArea:"いの町",events:[
+{time:"9:00",text:"TheMana朝食→足摺岬散歩",icon:"wb_sunny",maps:"https://maps.google.com/?q=足摺岬+展望台"},
+{time:"11:00",text:"四万十川方面へ北上",icon:"directions_car"},
+{time:"12:30",text:"四万十川で川遊び",icon:"kayaking",maps:"https://maps.google.com/?q=かわらっこ+四万十",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#1b4332,#52b788)",femoji:"🏞️",flabel:"四万十市"},
+{time:"13:30",text:"道の駅とおわでランチ",icon:"restaurant",maps:"https://maps.google.com/?q=道の駅四万十とおわ"},
+{time:"16:00",text:"亀の井チェックイン",icon:"hotel",maps:"https://maps.google.com/?q=亀の井ホテル高知"},
+{time:"夕方",text:"土佐会席ディナー",icon:"set_meal"},
+]},
+{day:12,date:"5/4(月祝)",title:"アンパンマン→父母ヶ浜",emoji:"📸",region:"三豊市",stay:"NIPPONIA仁尾",stayArea:"仁尾",events:[
+{time:"9:00",text:"亀の井チェックアウト",icon:"wb_sunny"},
+{time:"10:30",text:"アンパンマンミュージアム",icon:"child_friendly",maps:"https://maps.google.com/?q=アンパンマンミュージアム+高知",confirmed:true,note:"チケット確保済",img:"https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#e63946,#f4a261)",femoji:"🦸",flabel:"香美市"},
+{time:"12:30",text:"仁尾へ移動（1.5h）",icon:"directions_car"},
+{time:"15:00",text:"NIPPONIAチェックイン",icon:"hotel",maps:"https://maps.google.com/?q=NIPPONIA+仁尾"},
+{time:"17:00",text:"父母ヶ浜で夕景撮影",icon:"photo_camera",maps:"https://maps.google.com/?q=父母ヶ浜",note:"撮影プラン5/1まで要予約",warn:true,img:"https://images.unsplash.com/photo-1503803548695-c2a7b4a5b875?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#ff6d00,#ff9e00)",femoji:"📸",flabel:"日本のウユニ"},
+]},
+{day:13,date:"5/5(火祝)",title:"祖谷のかずら橋",emoji:"🌿",region:"祖谷",stay:"ホテルかずら橋",stayArea:"祖谷",events:[
+{time:"10:00",text:"NIPPONIAチェックアウト",icon:"hotel"},
+{time:"10:30",text:"祖谷へ移動（約2h）",icon:"directions_car"},
+{time:"12:30",text:"かずら橋を渡る",icon:"forest",maps:"https://maps.google.com/?q=祖谷のかずら橋",img:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=200&fit=crop",grad:"linear-gradient(135deg,#2d6a4f,#40916c)",femoji:"🌿",flabel:"日本三大秘境"},
+{time:"13:00",text:"祖谷そばランチ",icon:"ramen_dining"},
+{time:"15:00",text:"ホテルかずら橋チェックイン",icon:"spa",maps:"https://maps.google.com/?q=ホテルかずら橋"},
+{time:"15:30",text:"ケーブルカーで天空露天風呂！",icon:"hot_tub",note:"絶景！"},
+{time:"夕方",text:"祖谷味覚ディナー",icon:"dining"},
+]},
+{day:14,date:"5/6(水)",title:"アンパンマン列車でおうちへ",emoji:"🚂",region:"徳島",stay:"帰宅",stayArea:"",events:[
+{time:"10:00",text:"かずら橋チェックアウト",icon:"wb_sunny"},
+{time:"10:40",text:"阿波池田駅へ（車40分）",icon:"directions_car",maps:"https://maps.google.com/?q=阿波池田駅"},
+{time:"—",text:"アンパンマンカー乗車",icon:"train",note:"4番A・B席が川側ベスト！"},
+{time:"—",text:"徳島駅到着",icon:"location_city"},
+{time:"—",text:"おうちへ帰ろう",icon:"home"},
+]},
+];
+
+const MEALS=[
+{date:"4/23",d:1,b:"自宅",l:"✅ キティショー 11:30",di:"✅ Nook BBQ",li:"🎀",dii:"🥩"},
+{date:"4/24",d:2,b:"✅ Nook朝食",l:"びんび家 or ちゃりこ",di:"✅ にった夕食",li:"🐟",dii:"🍣"},
+{date:"4/25",d:3,b:"✅ にった朝食",l:"高松うどん",di:"✅ 島活 17:30",li:"🍜",dii:"🍽️"},
+{date:"4/26",d:4,b:"プラットピット",l:"✅ kamos 12:00",di:"⚠️ 味彩（要予約）",li:"🍕",dii:"⚠️"},
+{date:"4/27",d:5,b:"プラットピット",l:"なかぶ庵（返信待ち）",di:"✅ 一鶴 17:30",li:"🍜",dii:"🍗"},
+{date:"4/28",d:6,b:"朝うどん（岡じま等）",l:"レオマ園内",di:"✅ レオマの森バイキング",li:"🍜",dii:"🍽️"},
+{date:"4/29",d:7,b:"✅ レオマの森",l:"移動中SA等",di:"✅ ふなやお部屋食",li:"🚗",dii:"🍱"},
+{date:"4/30",d:8,b:"✅ ふなや",l:"園内 or haco",di:"✅ ふなやお部屋食",li:"🐘",dii:"🍱"},
+{date:"5/1",d:9,b:"✅ ふなや",l:"姫鶴荘 or TENGU",di:"⚠️ 宝泉坊（要手配）",li:"⛰️",dii:"⚠️"},
+{date:"5/2",d:10,b:"✅ 宝泉坊",l:"宇和島鯛めし or 道中",di:"✅ TheMana",li:"🐟",dii:"🍝"},
+{date:"5/3",d:11,b:"✅ TheMana",l:"道の駅とおわ等",di:"✅ 亀の井 土佐会席",li:"🏞️",dii:"🐟"},
+{date:"5/4",d:12,b:"✅ 亀の井",l:"道の駅等",di:"⚠️ NIPPONIA（要手配）",li:"🚗",dii:"⚠️"},
+{date:"5/5",d:13,b:"仁尾（要確認）",l:"祖谷そば",di:"✅ かずら橋",li:"🍜",dii:"🍱"},
+{date:"5/6",d:14,b:"✅ かずら橋",l:"アンパンマン弁当",di:"帰宅後",li:"🚂",dii:"🏠"},
+];
+
+const PACKING=[
+{cat:"こどもグッズ",icon:"child_care",items:["おむつ（多めに）","おしりふき","着替え×5日分","パジャマ","子ども用歯ブラシ","酔い止め（3歳用）","ビニール袋（多めに）","お気に入りおもちゃ","タブレット＆充電器","ベビーカー","抱っこ紐","子ども用お箸・スプーン","水筒×2","おやつ","日焼け止め（子ども用）","帽子×2"]},
+{cat:"くるま",icon:"directions_car",items:["車検証 ⚠️フェリー必須","ETC カード","充電ケーブル","スマホホルダー","車内用ゴミ袋","日よけシェード"]},
+{cat:"おとなの服",icon:"checkroom",items:["着替え×3日分","防寒着（カルスト用）","レインコート・折りたたみ傘","サンダル（浜遊び用）","水着・ラッシュガード"]},
+{cat:"おふろ・からだ",icon:"health_and_safety",items:["常備薬","体温計","絆創膏","虫除けスプレー","保険証コピー","母子手帳"]},
+{cat:"ガジェット",icon:"devices",items:["モバイルバッテリー","カメラ＆SDカード","三脚（父母ヶ浜用）","各種充電器"]},
+{cat:"書類・チケット",icon:"receipt_long",items:["フェリー予約番号メモ","宿泊予約確認書","ミュージアムチケット","e5489予約確認"]},
+];
+
+const BOOKINGS=[
+{date:"4/23",name:"Nook The Cliff",ref:"7238",amount:"¥78,980",area:"淡路市下司",ci:"15:00",co:"10:00",meal:"BBQ夕食＋朝食付",nights:"1泊",grad:"linear-gradient(135deg,#2d5a3d,#5b8c5a)",emoji:"🏕️",tag:"崖の上の絶景",desc:"周辺にコンビニなし。道中で買い物を",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=280&fit=crop"},
+{date:"4/24",name:"旅宿にった",ref:"RYa0mi0fji",amount:"¥24,130",area:"さぬき市",ci:"15:00",co:"10:00",meal:"1泊2食付",nights:"1泊",grad:"linear-gradient(135deg,#5b4a3a,#a08060)",emoji:"🏡",tag:"古民家の温もり",desc:"地元の食材を使った手作り料理が自慢",img:"https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=280&fit=crop"},
+{date:"4/25-26",name:"海辺の宿 入舟",ref:"IY1558882322",amount:"¥23,400",area:"小豆島・土庄",ci:"15:00",co:"10:00",meal:"素泊まり",nights:"2泊",grad:"linear-gradient(135deg,#1a5276,#3498db)",emoji:"⛵",tag:"島の海辺",desc:"土庄港から近く小豆島観光の拠点に最適",img:"https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&h=280&fit=crop"},
+{date:"4/27",name:"東横INN丸亀駅前",ref:"IY1558933529",amount:"¥10,545",area:"丸亀",ci:"16:00",co:"10:00",meal:"朝食付",nights:"1泊",grad:"linear-gradient(135deg,#34495e,#7f8c8d)",emoji:"🏢",tag:"駅前アクセス",desc:"一鶴本店まで徒歩圏内",img:"https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=280&fit=crop"},
+{date:"4/28",name:"ホテルレオマの森",ref:"3444-0336-6844",amount:"¥49,824",area:"丸亀",ci:"15:00",co:"10:00",meal:"バイキング夕朝食",nights:"1泊",grad:"linear-gradient(135deg,#6c3483,#a569bd)",emoji:"🎡",tag:"遊園地直結",desc:"パンどろぼうフェスティバル＋花火の日！",img:"https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?w=600&h=280&fit=crop"},
+{date:"4/29-30",name:"ふなや",ref:"T39A24920E3A8",amount:"¥165,386",area:"道後温泉",ci:"15:00",co:"10:00",meal:"お部屋食",nights:"2泊",grad:"linear-gradient(135deg,#7d3c3d,#c0392b)",emoji:"♨️",tag:"Premium Stay",desc:"道後温泉の老舗旅館。お部屋食で贅沢な時間を",img:"https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&h=280&fit=crop"},
+{date:"5/1",name:"宝泉坊ロッジ",ref:"IY1559317106",amount:"¥21,600",area:"西予市城川町",ci:"15:00",co:"10:00",meal:"朝食のみ",nights:"1泊",grad:"linear-gradient(135deg,#1e8449,#27ae60)",emoji:"🌲",tag:"山あいの温泉",desc:"クアテルメ宝泉坊で疲れを癒す。夕食は要手配",img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&h=280&fit=crop"},
+{date:"5/2",name:"TheMana Village",ref:"3444-0137-6107",amount:"¥184,800",area:"足摺岬",ci:"15:00",co:"11:00",meal:"オールインクルーシブ",nights:"1泊",grad:"linear-gradient(135deg,#0e6655,#1abc9c)",emoji:"🌊",tag:"Premium Stay",desc:"足摺岬の絶景ヴィラ。全食事・ドリンク込み",img:"https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=280&fit=crop"},
+{date:"5/3",name:"亀の井ホテル高知",ref:"IY1559326498",amount:"¥101,916",area:"いの町",ci:"15:00",co:"10:00",meal:"土佐会席",nights:"1泊",grad:"linear-gradient(135deg,#1a5276,#2e86c1)",emoji:"🐟",tag:"仁淀川の畔",desc:"四万十から高知への中継地。土佐の味覚を堪能",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=280&fit=crop"},
+{date:"5/4",name:"NIPPONIA仁尾",ref:"TF62C458909DE",amount:"¥66,060",area:"三豊市仁尾",ci:"15:00",co:"10:00",meal:"素泊まり",nights:"1泊",grad:"linear-gradient(135deg,#6e4b3a,#b5651d)",emoji:"🏚️",tag:"古民家リノベ",desc:"父母ヶ浜の夕景撮影に最高の立地。夕食は要手配",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=280&fit=crop"},
+{date:"5/5",name:"ホテルかずら橋",ref:"KZR006455",amount:"¥78,100",area:"祖谷",ci:"15:00",co:"10:00",meal:"祖谷味覚プラン",nights:"1泊",grad:"linear-gradient(135deg,#1b4332,#40916c)",emoji:"🌿",tag:"天空の秘湯",desc:"ケーブルカーで行く天空露天風呂。五右衛門風呂付",img:"https://images.unsplash.com/photo-1440342359743-84fcb8c21f21?w=600&h=280&fit=crop"},
+];
+
+const EMERGENCY=[
+{label:"救急（消防）",number:"119",icon:"local_fire_department",critical:true},
+{label:"警察",number:"110",icon:"local_police",critical:true},
+{label:"救急相談",number:"#7119",icon:"support_agent",medical:true},
+{label:"子ども医療相談",number:"#8000",icon:"child_care",medical:true},
+{label:"JAF ロードサービス",number:"0570-00-8139",icon:"car_crash",road:true},
+{label:"Nook The Cliff",number:"080-7644-5695",icon:"hotel"},
+{label:"ふなや",number:"089-947-0278",icon:"spa"},
+{label:"TheMana Village",number:"0880-88-0455",icon:"villa"},
+{label:"飛鳥乃湯泉（家族風呂）",number:"089-932-1126",icon:"hot_tub"},
+{label:"星ふるヴィレッジTENGU",number:"0889-62-3188",icon:"landscape"},
+{label:"姫鶴荘",number:"0892-55-0057",icon:"restaurant"},
+];
+
+const MI=({name,fill,size,style})=><span className={`material-symbols-outlined${fill?" mi-fill":""}`} style={{fontSize:size||24,...style}}>{name}</span>;
+
+// Photo component: real img with gradient+emoji fallback
+const SpotPhoto=({ev})=>{
+  const [failed,setFailed]=useState(false);
+  if(!ev.img&&!ev.grad)return null;
+  return(<div className="sp">
+    {ev.img&&!failed?<img src={ev.img} alt={ev.text} loading="lazy" onError={()=>setFailed(true)}/>:
+    <div className="sp-fallback" style={{background:ev.grad||"linear-gradient(135deg,#666,#999)"}}>
+      <span className="sp-emoji">{ev.femoji||"📍"}</span>
+    </div>}
+    {ev.flabel&&<span className="sp-label">{ev.flabel}</span>}
+  </div>);
+};
+
+// Hotel card photo with fallback
+const HotelImg=({b,h})=>{
+  const [failed,setFailed]=useState(false);
+  return(<div className="hc-img" style={{background:b.grad,height:h||140}}>
+    {b.img&&!failed?<img src={b.img} alt={b.name} loading="lazy" onError={()=>setFailed(true)}/>:
+    <div className="hc-img-fb"><span>{b.emoji}</span></div>}
+    {b.tag&&<div className={`hc-tag${b.tag==="Premium Stay"?" premium":""}`}>{b.tag}</div>}
+    <div style={{position:"relative",zIndex:2}}><div className="hc-name" style={h?{fontSize:15}:{}}>{b.name}</div><div className="hc-area">{b.area}{b.nights?`・${b.nights}`:""}</div></div>
+  </div>);
+};
+
+function App(){
+  const [tab,setTab]=useState("schedule");
+  const [sel,setSel]=useState(0);
+  const [chk,setChk]=useState({});
+  const [cover,setCover]=useState(true);
+  const [pCat,setPCat]=useState(0);
+  const [fabOpen,setFabOpen]=useState(false);
+  const ref=useRef(null);
+
+  // LocalStorage for checklist (works offline)
+  useEffect(()=>{try{const s=localStorage.getItem(STORAGE_KEY);if(s)setChk(JSON.parse(s));}catch{}},[]);
+  useEffect(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(chk));}catch{}},[chk]);
+
+  const tog=k=>setChk(p=>({...p,[k]:!p[k]}));
+  const total=PACKING.reduce((s,c)=>s+c.items.length,0);
+  const done=Object.values(chk).filter(Boolean).length;
+  const now=new Date();
+  const trip=new Date("2026-04-23T00:00:00+09:00");
+  const diff=Math.max(0,trip-now);
+  const dL=Math.floor(diff/864e5),hL=Math.floor((diff%864e5)/36e5),mL=Math.floor((diff%36e5)/6e4);
+  const day=DAYS[sel];
+  useEffect(()=>{if(ref.current){const el=ref.current.querySelector(".dc.a");if(el)el.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});}},[sel]);
+
+  const dt=ev=>{
+    if(ev.warn)return"w";
+    if(["hotel","spa","villa"].includes(ev.icon))return"h";
+    if(["restaurant","dining","ramen_dining","local_pizza","set_meal","coffee"].includes(ev.icon))return"f";
+    return"";
+  };
+
+  if(cover)return(<div className="app"><div className="cover washi">
+    <div className="cover-deco">shrine</div>
+    <div className="cover-badge">FAMILY EXPEDITION 2026</div>
+    <h2>四国家族旅行<br/>しおり</h2>
+    <p className="cover-sub">四国四県を巡る14泊15日の旅</p>
+    <div className="cd-bento">{[[dL,"日"],[hL,"時間"],[mL,"分"]].map(([n,u],i)=><div className="cd-cell" key={i}><span className="cd-num">{String(n).padStart(2,"0")}</span><span className="cd-unit">{u}</span></div>)}</div>
+    <div className="fam-grid">{FAMILY.map(m=><div key={m.name} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:3}}>
+      <div className="fam-av" style={{background:m.color+"22"}}><MI name={m.icon} style={{color:m.color}} size={22}/></div>
+      <span style={{fontSize:11,fontWeight:700}}>{m.name}</span><span style={{fontSize:9,color:"#5b5c59"}}>{m.role}</span>
+    </div>)}</div>
+    <button className="cover-btn" onClick={()=>setCover(false)}>しおりを開く</button>
+  </div></div>);
+
+  return(<div className="app washi">
+    <div className="glass"><h1 onClick={()=>setCover(true)}>{tab==="schedule"?"旅のしおり":TABS.find(t=>t.id===tab)?.label}</h1><span style={{fontSize:11,fontWeight:700,color:"#8b4749"}}>Day {sel+1}/14</span></div>
+
+    {tab==="schedule"&&<>
+      <div className="day-nav" ref={ref}>{DAYS.map((d,i)=><button key={i} className={`dc${sel===i?" a":""}`} onClick={()=>setSel(i)}>{d.emoji} Day {d.day}</button>)}</div>
+      <div className="ct" key={sel}>
+        <div className="dh"><span className="rg">{day.region}</span><span className="dl">DAY {day.day}</span><h3>{day.emoji} {day.title}</h3><span className="dd">{day.date}</span>
+          {day.stay&&<div className="sb"><MI name="hotel" size={14}/>{day.stay}{day.stayArea&&<span style={{opacity:.7}}>・{day.stayArea}</span>}</div>}
+        </div>
+        <div className="wn"><MI name="lightbulb" size={18} style={{color:"#006381",flexShrink:0}}/><p>天気予報は出発1週間前に表示されます</p></div>
+        <div className="tl">{day.events.map((ev,i)=><div className="ti" key={i}>
+          <div className={`td ${dt(ev)}`}><MI name={ev.icon} size={12}/></div>
+          <div className="tc">
+            <SpotPhoto ev={ev}/>
+            <div className="tt">{ev.time}</div><div className="tx">{ev.text}</div>
+            <div className="chips">{ev.confirmed&&<span className="ch-ok">✅ 確定</span>}{ev.warn&&<span className="ch-w">⚠️ 注意</span>}</div>
+            {ev.note&&<div className="tn"><MI name="push_pin" size={13}/>{ev.note}</div>}
+            {ev.maps&&<a href={ev.maps} target="_blank" rel="noopener noreferrer" className="ml"><MI name="location_on" size={13}/>地図を見る</a>}
+          </div>
+        </div>)}</div>
+
+        {(()=>{const d2b=[0,1,2,2,3,4,5,5,6,7,8,9,10,-1];const bi=d2b[sel];if(bi<0||bi==null)return null;const bk=BOOKINGS[bi];if(!bk)return null;return(
+          <div className="hc" style={{marginTop:16}}>
+            <HotelImg b={bk} h={110}/>
+            <div className="hc-body" style={{padding:"10px 14px"}}>
+              <div className="hc-meta" style={{marginBottom:6}}>
+                <span className="hc-chip"><MI name="login" size={13}/>CI {bk.ci}</span>
+                <span className="hc-chip"><MI name="restaurant" size={13}/>{bk.meal}</span>
+              </div>
+              <div className="hc-footer">
+                <div className="hc-price" style={{fontSize:15}}>{bk.amount}</div>
+                <a className="hc-btn hc-btn-primary" href={`https://maps.google.com/?q=${encodeURIComponent(bk.name+" "+bk.area)}`} target="_blank" rel="noopener noreferrer"><MI name="map" size={16}/></a>
+              </div>
+            </div>
+          </div>);})()}
+
+        {sel<DAYS.length-1&&<div style={{marginTop:16,background:"rgba(139,71,73,.04)",borderRadius:12,padding:"14px 16px",border:"2px dashed rgba(139,71,73,.15)",display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer"}} onClick={()=>setSel(sel+1)}>
+          <div><span style={{fontSize:11,fontWeight:700,color:"#8b4749"}}>Coming Next</span><div style={{fontFamily:"var(--fh)",fontWeight:700,fontSize:15,marginTop:2}}>{DAYS[sel+1].emoji} {DAYS[sel+1].title}</div></div>
+          <MI name="arrow_forward_ios" size={18} style={{color:"#8b4749"}}/>
+        </div>}
+      </div>
+    </>}
+
+    {tab==="meals"&&<div className="ct">
+      <div className="bb"><div className="bm">
+        <div style={{fontSize:10,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase",color:"#8b4749"}}>旅行概算</div>
+        <div style={{fontFamily:"var(--fh)",fontSize:30,fontWeight:800,margin:"4px 0"}}>¥110万</div>
+        <div style={{fontSize:10,color:"#5b5c59"}}>宿泊 ¥804,741 ＋ 食事・交通</div>
+        <div style={{height:5,borderRadius:5,overflow:"hidden",display:"flex",marginTop:10,background:"#e9e8e4"}}>
+          <div style={{width:"65%",background:"#8b4749",height:"100%"}}/><div style={{width:"25%",background:"#006381",height:"100%"}}/><div style={{width:"10%",background:"#635d15",height:"100%"}}/>
+        </div>
+      </div><div className="bs"><MI name="restaurant_menu" size={26} style={{marginBottom:4}}/><span style={{fontFamily:"var(--fh)",fontSize:10,fontWeight:700,opacity:.8}}>食事進捗</span><span style={{fontFamily:"var(--fh)",fontSize:26,fontWeight:800}}>81%</span><span style={{fontSize:9,opacity:.7}}>34/42食</span></div></div>
+      <h3 style={{fontFamily:"var(--fh)",fontSize:20,fontWeight:800,marginBottom:14}}>14日間の食事プラン</h3>
+      <div style={{position:"relative"}}><div style={{position:"absolute",left:12,top:14,bottom:14,width:2,background:"repeating-linear-gradient(to bottom,#90dbff 0 4px,transparent 4px 8px)"}}/>
+        {MEALS.map((m,i)=><div className="md" key={i}><div className="mn">{m.d}</div><div className="mh">{m.date}</div>
+          <div className="mr"><span className="mt b">朝</span><span className="mn2">{m.b}</span></div>
+          <div className="mr"><span className="mt l">昼</span><span className="me">{m.li}</span><span className={`mn2${m.l.includes("⚠️")?" w":""}`}>{m.l}</span>{m.l.includes("✅")&&<span className="ms ok">確定</span>}{m.l.includes("⚠️")&&<span className="ms wn2">要手配</span>}</div>
+          <div className="mr"><span className="mt d">夕</span><span className="me">{m.dii}</span><span className={`mn2${m.di.includes("⚠️")?" w":""}`}>{m.di}</span>{m.di.includes("✅")&&<span className="ms ok">確定</span>}{m.di.includes("⚠️")&&<span className="ms wn2">要手配</span>}</div>
+        </div>)}
+      </div>
+      <h3 style={{fontFamily:"var(--fh)",fontSize:18,fontWeight:800,margin:"20px 0 10px",display:"flex",alignItems:"center",gap:6}}><MI name="hotel" size={20} style={{color:"#006381"}}/>宿泊予約リスト</h3>
+      {BOOKINGS.map((b,i)=><div className="hc" key={i}>
+        <HotelImg b={b}/>
+        <div className="hc-body">
+          <div className="hc-meta">
+            <span className="hc-chip"><MI name="login" size={13}/>CI {b.ci}</span>
+            <span className="hc-chip"><MI name="logout" size={13}/>CO {b.co}</span>
+            <span className="hc-chip"><MI name="restaurant" size={13}/>{b.meal}</span>
+          </div>
+          <div className="hc-desc">{b.desc}</div>
+          <div className="hc-footer">
+            <div><div className="hc-price">{b.amount}</div><div className="hc-ref">予約: {b.ref}</div></div>
+            <div className="hc-actions">
+              <button className="hc-btn hc-btn-ghost" onClick={()=>{navigator.clipboard?.writeText(b.ref);}}><MI name="content_copy" size={16}/></button>
+              <a className="hc-btn hc-btn-primary" href={`https://maps.google.com/?q=${encodeURIComponent(b.name+" "+b.area)}`} target="_blank" rel="noopener noreferrer"><MI name="map" size={16}/></a>
+            </div>
+          </div>
+        </div>
+      </div>)}
+    </div>}
+
+    {tab==="packing"&&<div className="ct">
+      <div className="ps"><div className="psn">{done}/{total}</div><div className="pss">{done===total?"🎉 全部準備OK！":"あと "+(total-done)+" 個！がんばろう"}</div><div className="ppb"><div className="ppf" style={{width:`${(done/total)*100}%`}}/></div></div>
+      <div className="pbg">{PACKING.map((c,ci)=>{const cd=c.items.filter((_,ii)=>chk[`${ci}-${ii}`]).length;return<div key={ci} className={`pbc${pCat===ci?" a":""}`} onClick={()=>setPCat(ci)}>
+        <MI name={c.icon} size={20} style={{color:"#006381"}}/>
+        <div className="pbn">{c.cat}</div><div className="pbt">{cd}/{c.items.length} 項目</div>
+        <div className="pds">{c.items.slice(0,6).map((_,j)=><span key={j} className={`pd${chk[`${ci}-${j}`]?" dn":""}`}/>)}</div>
+      </div>})}</div>
+      <h3 style={{fontSize:14,fontWeight:700,marginBottom:8,display:"flex",alignItems:"center",gap:5}}><MI name={PACKING[pCat].icon} size={16} style={{color:"#006381"}}/>{PACKING[pCat].cat}</h3>
+      {PACKING[pCat].items.map((it,ii)=>{const k=`${pCat}-${ii}`,d=!!chk[k];return<div className="pi" key={ii} onClick={()=>tog(k)}>
+        <div className={`pcb${d?" dn":""}`}>{d&&<MI name="check" size={14}/>}</div><span className={`pit${d?" dn":""}`}>{it}</span>
+      </div>})}
+    </div>}
+
+    {tab==="emergency"&&<div className="ct">
+      <div className="ec"><div className="ect"><MI name="emergency" fill size={18}/>緊急連絡先</div>
+        {EMERGENCY.filter(e=>e.critical).map((e,i)=><div className="ecd" key={i}><span className="el"><MI name={e.icon} size={16}/>{e.label}</span><a className="en" href={`tel:${e.number}`} style={{color:"#b41340",fontSize:20}}>{e.number}</a></div>)}
+      </div>
+      <div className="es">医療相談</div>{EMERGENCY.filter(e=>e.medical).map((e,i)=><div className="ecd" key={i}><span className="el"><MI name={e.icon} size={16}/>{e.label}</span><a className="en" href={`tel:${e.number}`}>{e.number}</a></div>)}
+      <div className="es">ロードサービス</div>{EMERGENCY.filter(e=>e.road).map((e,i)=><div className="ecd" key={i}><span className="el"><MI name={e.icon} size={16}/>{e.label}</span><a className="en" href={`tel:${e.number}`}>{e.number}</a></div>)}
+      <div className="es">宿泊施設</div>{EMERGENCY.filter(e=>!e.critical&&!e.medical&&!e.road).map((e,i)=><div className="ecd" key={i}><span className="el"><MI name={e.icon} size={16}/>{e.label}</span><a className="en" href={`tel:${e.number}`}>{e.number}</a></div>)}
+      <div className="es">フェリー予約番号</div>
+      <div className="ecd"><span className="el"><MI name="directions_boat" size={16}/>高松→土庄 4/25</span><span className="en" style={{fontSize:12}}>0304250903</span></div>
+      <div className="ecd"><span className="el"><MI name="directions_boat" size={16}/>土庄→高松 4/27</span><span className="en" style={{fontSize:12}}>0404270802</span></div>
+      <div className="fr">⚠️ 車検証はフェリー乗船時に必須です<br/>🚗 GLC300（なにわ る・416）</div>
+    </div>}
+
+    <div className={`fab-overlay${fabOpen?" open":""}`} onClick={()=>setFabOpen(false)}/>
+    <div className={`fab-menu${fabOpen?" open":""}`}>
+      <button className="fab-action" onClick={()=>{setFabOpen(false);setTab("packing");}}><MI name="luggage" size={18}/>持ち物チェック</button>
+      <button className="fab-action" onClick={()=>{setFabOpen(false);setTab("emergency");}}><MI name="emergency" size={18}/>緊急連絡先</button>
+      <button className="fab-action" onClick={()=>{setFabOpen(false);setCover(true);}}><MI name="auto_stories" size={18}/>表紙に戻る</button>
+    </div>
+    <button className={`fab${fabOpen?" open":""}`} onClick={()=>setFabOpen(f=>!f)}><MI name="add" size={26}/></button>
+
+    <div className="bn2">{TABS.map(t=><button key={t.id} className={`ni${tab===t.id?" a":""}`} onClick={()=>{setTab(t.id);setFabOpen(false);}}><MI name={t.icon} fill={tab===t.id} size={20}/><span>{t.label}</span></button>)}</div>
+  </div>);
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<script>
+// Register Service Worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').then(r=>{
+      console.log('SW registered:',r.scope);
+    }).catch(e=>console.log('SW registration failed:',e));
+  });
+}
+</script>
+</body>
+</html>
