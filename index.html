@@ -220,6 +220,25 @@ const DAYS=[
 ]},
 ];
 
+// スポット間の移動距離・所要時間データ
+// travel[i] = eventsのi番目→(i+1)番目の移動情報（nullなら同一地点・移動なし）
+const TRAVEL={
+1:[null,{km:85,min:80,hwy:true},{km:3,min:6},{km:18,min:25},null],
+2:[null,{km:22,min:30},{km:28,min:35,hwy:true},{km:55,min:55,hwy:true},null],
+3:[null,{km:8,min:15},{km:30,min:35,hwy:true},{km:5,min:12},{km:0,min:60,ferry:true},{km:12,min:18},null],
+4:[null,{km:6,min:12},{km:3,min:7},{km:9,min:15},{km:2,min:5},{km:4,min:8},{km:11,min:18},{km:3,min:7},{km:2,min:5}],
+5:[null,null,{km:14,min:22},{km:16,min:25},{km:0,min:60,ferry:true},{km:38,min:38,hwy:true},{km:2,min:6}],
+6:[null,{km:3,min:8},{km:12,min:18},null,null,null,null],
+7:[null,null,{km:14,min:20},{km:105,min:90,hwy:true},null,null],
+8:[null,{km:14,min:25},null,{km:14,min:25},{km:1,min:3},null],
+9:[null,null,{km:30,min:40},{km:65,min:90},{km:8,min:15},{km:20,min:30}],
+10:[null,{km:75,min:95},{km:55,min:70},{km:3,min:7},null,null],
+11:[null,null,{km:50,min:65},{km:12,min:18},{km:100,min:90,hwy:true},null,null],
+12:[null,null,{km:55,min:55,hwy:true},{km:95,min:85,hwy:true},{km:5,min:10},null],
+13:[null,null,{km:95,min:100,hwy:true},{km:4,min:8},null,null,null],
+14:[null,null,{km:22,min:30},{km:70,min:60,hwy:true},{km:1,min:4},null,null,null],
+};
+
 const MEALS=[
 {date:"4/23",d:1,b:"自宅",l:"✅ キティショー 11:30",di:"✅ Nook BBQ",li:"🎀",dii:"🥩",limg:"https://awaji-resort.com/d528mw5bifp6crd5/wp-content/themes/hello_kitty_apple_land/assets/images/hellokittyshowbox/top/img_schedule09.png",lurl:"https://awaji-resort.com/hellokittyshowbox/"},
 {date:"4/24",d:2,b:"✅ Nook朝食",l:"びんび家 or ちゃりこ",di:"✅ にった夕食",li:"🐟",dii:"🍣",limg:"https://binbi-ya.com/wp-content/uploads/2021/10/IMG_2752-640x480.jpeg",lurl:"https://binbi-ya.com/"},
@@ -309,6 +328,21 @@ const findMealDetail=(text)=>{
 };
 
 const MI=({name,fill,size,style})=><span className={`material-symbols-outlined${fill?" mi-fill":""}`} style={{fontSize:size||24,...style}}>{name}</span>;
+
+const TravelBadge=({t})=>{
+  if(!t)return null;
+  const icon=t.ferry?"directions_boat":t.hwy?"toll":"directions_car";
+  const label=t.ferry?"フェリー":t.hwy?"高速":"一般道";
+  return(<div className="relative ml-[-42px] my-1 flex items-center gap-2 pl-[42px]">
+    <div className="absolute left-[16px] w-[10px] h-[10px] rounded-full border-2 border-pri/20 bg-sf z-10"/>
+    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold text-on-sf-v/60" style={{background:"rgba(138,130,112,.04)",border:"1px dashed rgba(138,130,112,.1)"}}>
+      <MI name={icon} size={12} style={{color:"#1a7fa8",opacity:.7}}/>
+      <span>{t.km>0?`${t.km}km`:""}  {t.min>=60?`${Math.floor(t.min/60)}h${t.min%60>0?(t.min%60+"min"):""}`:t.min+"min"}</span>
+      <span className="opacity-40">|</span>
+      <span className="opacity-60">{label}</span>
+    </div>
+  </div>);
+};
 
 const SpotPhoto=({ev,photoKey,customPhotos,onUploadClick})=>{
   const [f,setF]=useState(false);
@@ -556,7 +590,9 @@ function App(){
         {/* Timeline */}
         <div className="relative pl-12 mt-4">
           <div className="absolute left-[20px] top-2 bottom-2 w-[2px] rounded-full" style={{background:"linear-gradient(180deg,rgba(26,127,168,.15),rgba(26,127,168,.05))"}}/>
-          {day.events.map((ev,i)=><div key={i} className="relative mb-5 animate-fade-up" style={{animationDelay:`${i*50}ms`}}>
+          {day.events.map((ev,i)=>{const tr=TRAVEL[day.day]?.[i];return(<React.Fragment key={i}>
+            {tr&&<TravelBadge t={tr}/>}
+            <div className="relative mb-5 animate-fade-up" style={{animationDelay:`${i*50}ms`}}>
             <div className={`absolute left-[-42px] top-4 w-10 h-10 rounded-xl ${iconType(ev)} text-white flex items-center justify-center border-[3px] border-sf z-10 ${i===0?"dot-pulse":""}`} style={{boxShadow:"0 4px 16px rgba(26,127,168,.15)"}}><MI name={ev.icon} size={16}/></div>
             <div className="card-modern p-5 overflow-hidden kinetic cursor-pointer" onClick={(e)=>handleEventTap(ev,e)}>
               <SpotPhoto ev={ev} photoKey={`day${day.day}_ev${i}`} customPhotos={customPhotos} onUploadClick={(k)=>setPhotoModal(k)}/>
@@ -571,7 +607,7 @@ function App(){
               {ev.note&&<p className="text-xs text-on-sf-v/70 mt-2.5 flex items-center gap-1.5 leading-relaxed"><MI name="push_pin" size={11} style={{color:"#c43a39",flexShrink:0}}/>{ev.note}</p>}
               {ev.maps&&<a href={ev.maps} target="_blank" rel="noopener noreferrer" className="ml-btn inline-flex items-center gap-1.5 mt-3 px-3.5 py-2 rounded-xl text-xs text-pri font-bold transition-colors" style={{background:"linear-gradient(135deg,rgba(26,127,168,.06),rgba(142,213,245,.08))"}} onClick={e=>e.stopPropagation()}><MI name="location_on" size={13}/>地図を見る</a>}
             </div>
-          </div>)}
+          </div></React.Fragment>);})}
         </div>
 
         {/* Hotel Card */}
@@ -588,6 +624,25 @@ function App(){
                 <a className="w-10 h-10 rounded-xl text-white flex items-center justify-center kinetic" style={{background:"linear-gradient(135deg,#1a7fa8,#2b9ac4)",boxShadow:"0 4px 12px rgba(26,127,168,.2)"}} href={`https://maps.google.com/?q=${encodeURIComponent(bk.name+" "+bk.area)}`} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}><MI name="map" size={16}/></a>
               </div>
             </div>
+          </div>);})()}
+
+        {/* Day Route Map & Summary */}
+        {(()=>{const tr=TRAVEL[day.day]||[];const segs=tr.filter(t=>t);const totalKm=segs.reduce((s,t)=>s+t.km,0);const totalMin=segs.reduce((s,t)=>s+t.min,0);
+          // Googleマップ埋め込み用：maps URLからクエリパラメータを抽出して waypoints を構築
+          const spots=day.events.filter(ev=>ev.maps).map(ev=>{const m=ev.maps.match(/[?&]q=([^&]+)/);return m?decodeURIComponent(m[1].replace(/\+/g," ")):null;}).filter(Boolean);
+          if(spots.length<2&&totalKm===0)return null;
+          const origin=encodeURIComponent(spots[0]||"");const dest=encodeURIComponent(spots[spots.length-1]||"");
+          const wps=spots.slice(1,-1).map(s=>encodeURIComponent(s)).join("|");
+          const embedUrl=`https://www.google.com/maps/embed/v1/directions?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&origin=${origin}&destination=${dest}${wps?"&waypoints="+wps:""}&mode=driving&language=ja`;
+          return(<div className="mt-6 animate-fade-up">
+            {totalKm>0&&<div className="flex items-center gap-3 mb-3 px-1">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-on-sf-v/70"><MI name="route" size={15} style={{color:"#1a7fa8"}}/><span className="num">{totalKm}km</span></div>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-on-sf-v/70"><MI name="schedule" size={15} style={{color:"#1a7fa8"}}/><span className="num">{totalMin>=60?`${Math.floor(totalMin/60)}h${totalMin%60>0?totalMin%60+"min":""}`:totalMin+"min"}</span></div>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-on-sf-v/70"><MI name="pin_drop" size={15} style={{color:"#1a7fa8"}}/><span className="num">{segs.length}区間</span></div>
+            </div>}
+            {spots.length>=2&&<div className="rounded-2xl overflow-hidden card-modern" style={{border:"1px solid rgba(138,130,112,.08)"}}>
+              <iframe src={embedUrl} className="w-full border-0" style={{height:220}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
+            </div>}
           </div>);})()}
 
         {/* Coming Next */}
